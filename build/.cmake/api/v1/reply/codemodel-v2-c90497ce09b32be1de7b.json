@@ -1,0 +1,137 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "Visualization",
+					"jsonFile" : "directory-Visualization-Debug-31c859a350af948b1845.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Visualization",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "InfoAcquisition",
+					"jsonFile" : "directory-InfoAcquisition-Debug-06f700c847ff79910420.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "InfoAcquisition",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "indicators",
+					"jsonFile" : "directory-indicators-Debug-26084b516ac151e70e8d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "indicators"
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
+					"name" : "BottomFlow",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "indicators",
+					"parentIndex" : 0
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 2,
+					"id" : "InfoAcquisition::@de52b8ee60f9bd47feff",
+					"jsonFile" : "target-InfoAcquisition-Debug-fd447d2663559ff746b5.json",
+					"name" : "InfoAcquisition",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Visualization::@aacf4891b401c2a8313c",
+					"jsonFile" : "target-Visualization-Debug-b122146f3aa00b1940fc.json",
+					"name" : "Visualization",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bflow::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bflow-Debug-783febca5c58b2fa18c9.json",
+					"name" : "bflow",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build",
+		"source" : "/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

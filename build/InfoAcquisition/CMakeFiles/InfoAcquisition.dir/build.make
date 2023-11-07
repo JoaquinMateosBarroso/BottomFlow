@@ -73,15 +73,15 @@ InfoAcquisition/CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.o: InfoAcquis
 InfoAcquisition/CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.o: ../InfoAcquisition/infoAcquisition.cpp
 InfoAcquisition/CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.o: InfoAcquisition/CMakeFiles/InfoAcquisition.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object InfoAcquisition/CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.o"
-	cd /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/InfoAcquisition && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT InfoAcquisition/CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.o -MF CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.o.d -o CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.o -c /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/InfoAcquisition/infoAcquisition.cpp
+	cd /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/InfoAcquisition && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT InfoAcquisition/CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.o -MF CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.o.d -o CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.o -c /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/InfoAcquisition/infoAcquisition.cpp
 
 InfoAcquisition/CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.i"
-	cd /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/InfoAcquisition && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/InfoAcquisition/infoAcquisition.cpp > CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.i
+	cd /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/InfoAcquisition && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/InfoAcquisition/infoAcquisition.cpp > CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.i
 
 InfoAcquisition/CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.s"
-	cd /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/InfoAcquisition && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/InfoAcquisition/infoAcquisition.cpp -o CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.s
+	cd /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/InfoAcquisition && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/InfoAcquisition/infoAcquisition.cpp -o CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.s
 
 # Object files for target InfoAcquisition
 InfoAcquisition_OBJECTS = \

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/. -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/Vizualization/.
+CXX_INCLUDES = -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/. -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/Vizualization/. -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/Vizualization/./Vizualization
 
 CXX_FLAGS = -Wall -std=gnu++11
 

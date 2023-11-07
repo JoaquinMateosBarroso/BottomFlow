@@ -73,15 +73,15 @@ CMakeFiles/bflow.dir/main.cpp.o: CMakeFiles/bflow.dir/flags.make
 CMakeFiles/bflow.dir/main.cpp.o: ../main.cpp
 CMakeFiles/bflow.dir/main.cpp.o: CMakeFiles/bflow.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/bflow.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bflow.dir/main.cpp.o -MF CMakeFiles/bflow.dir/main.cpp.o.d -o CMakeFiles/bflow.dir/main.cpp.o -c /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/main.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bflow.dir/main.cpp.o -MF CMakeFiles/bflow.dir/main.cpp.o.d -o CMakeFiles/bflow.dir/main.cpp.o -c /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/main.cpp
 
 CMakeFiles/bflow.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/bflow.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/main.cpp > CMakeFiles/bflow.dir/main.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/main.cpp > CMakeFiles/bflow.dir/main.cpp.i
 
 CMakeFiles/bflow.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/bflow.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/main.cpp -o CMakeFiles/bflow.dir/main.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/main.cpp -o CMakeFiles/bflow.dir/main.cpp.s
 
 # Object files for target bflow
 bflow_OBJECTS = \
@@ -92,7 +92,7 @@ bflow_EXTERNAL_OBJECTS =
 
 bflow: CMakeFiles/bflow.dir/main.cpp.o
 bflow: CMakeFiles/bflow.dir/build.make
-bflow: Vizualization/libVizualization.a
+bflow: Visualization/libVisualization.a
 bflow: InfoAcquisition/libInfoAcquisition.a
 bflow: CMakeFiles/bflow.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable bflow"

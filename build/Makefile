@@ -130,17 +130,17 @@ bflow/fast:
 .PHONY : bflow/fast
 
 #=============================================================================
-# Target rules for targets named Vizualization
+# Target rules for targets named Visualization
 
 # Build rule for target.
-Vizualization: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Vizualization
-.PHONY : Vizualization
+Visualization: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Visualization
+.PHONY : Visualization
 
 # fast build rule for target.
-Vizualization/fast:
-	$(MAKE) $(MAKESILENT) -f Vizualization/CMakeFiles/Vizualization.dir/build.make Vizualization/CMakeFiles/Vizualization.dir/build
-.PHONY : Vizualization/fast
+Visualization/fast:
+	$(MAKE) $(MAKESILENT) -f Visualization/CMakeFiles/Visualization.dir/build.make Visualization/CMakeFiles/Visualization.dir/build
+.PHONY : Visualization/fast
 
 #=============================================================================
 # Target rules for targets named InfoAcquisition
@@ -188,7 +188,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... InfoAcquisition"
-	@echo "... Vizualization"
+	@echo "... Visualization"
 	@echo "... bflow"
 	@echo "... main.o"
 	@echo "... main.i"

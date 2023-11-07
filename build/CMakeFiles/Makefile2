@@ -64,20 +64,20 @@ CMAKE_BINARY_DIR = /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/
 
 # The main recursive "all" target.
 all: CMakeFiles/bflow.dir/all
-all: Vizualization/all
+all: Visualization/all
 all: InfoAcquisition/all
 all: indicators/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall: Vizualization/preinstall
+preinstall: Visualization/preinstall
 preinstall: InfoAcquisition/preinstall
 preinstall: indicators/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/bflow.dir/clean
-clean: Vizualization/clean
+clean: Visualization/clean
 clean: InfoAcquisition/clean
 clean: indicators/clean
 .PHONY : clean
@@ -98,19 +98,19 @@ InfoAcquisition/clean: InfoAcquisition/CMakeFiles/InfoAcquisition.dir/clean
 .PHONY : InfoAcquisition/clean
 
 #=============================================================================
-# Directory level rules for directory Vizualization
+# Directory level rules for directory Visualization
 
 # Recursive "all" directory target.
-Vizualization/all: Vizualization/CMakeFiles/Vizualization.dir/all
-.PHONY : Vizualization/all
+Visualization/all: Visualization/CMakeFiles/Visualization.dir/all
+.PHONY : Visualization/all
 
 # Recursive "preinstall" directory target.
-Vizualization/preinstall:
-.PHONY : Vizualization/preinstall
+Visualization/preinstall:
+.PHONY : Visualization/preinstall
 
 # Recursive "clean" directory target.
-Vizualization/clean: Vizualization/CMakeFiles/Vizualization.dir/clean
-.PHONY : Vizualization/clean
+Visualization/clean: Visualization/CMakeFiles/Visualization.dir/clean
+.PHONY : Visualization/clean
 
 #=============================================================================
 # Directory level rules for directory indicators
@@ -131,7 +131,7 @@ indicators/clean:
 # Target rules for target CMakeFiles/bflow.dir
 
 # All Build rule for target.
-CMakeFiles/bflow.dir/all: Vizualization/CMakeFiles/Vizualization.dir/all
+CMakeFiles/bflow.dir/all: Visualization/CMakeFiles/Visualization.dir/all
 CMakeFiles/bflow.dir/all: InfoAcquisition/CMakeFiles/InfoAcquisition.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bflow.dir/build.make CMakeFiles/bflow.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/bflow.dir/build.make CMakeFiles/bflow.dir/build
@@ -155,30 +155,30 @@ CMakeFiles/bflow.dir/clean:
 .PHONY : CMakeFiles/bflow.dir/clean
 
 #=============================================================================
-# Target rules for target Vizualization/CMakeFiles/Vizualization.dir
+# Target rules for target Visualization/CMakeFiles/Visualization.dir
 
 # All Build rule for target.
-Vizualization/CMakeFiles/Vizualization.dir/all:
-	$(MAKE) $(MAKESILENT) -f Vizualization/CMakeFiles/Vizualization.dir/build.make Vizualization/CMakeFiles/Vizualization.dir/depend
-	$(MAKE) $(MAKESILENT) -f Vizualization/CMakeFiles/Vizualization.dir/build.make Vizualization/CMakeFiles/Vizualization.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/CMakeFiles --progress-num=3,4 "Built target Vizualization"
-.PHONY : Vizualization/CMakeFiles/Vizualization.dir/all
+Visualization/CMakeFiles/Visualization.dir/all:
+	$(MAKE) $(MAKESILENT) -f Visualization/CMakeFiles/Visualization.dir/build.make Visualization/CMakeFiles/Visualization.dir/depend
+	$(MAKE) $(MAKESILENT) -f Visualization/CMakeFiles/Visualization.dir/build.make Visualization/CMakeFiles/Visualization.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/CMakeFiles --progress-num=3,4 "Built target Visualization"
+.PHONY : Visualization/CMakeFiles/Visualization.dir/all
 
 # Build rule for subdir invocation for target.
-Vizualization/CMakeFiles/Vizualization.dir/rule: cmake_check_build_system
+Visualization/CMakeFiles/Visualization.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Vizualization/CMakeFiles/Vizualization.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Visualization/CMakeFiles/Visualization.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/CMakeFiles 0
-.PHONY : Vizualization/CMakeFiles/Vizualization.dir/rule
+.PHONY : Visualization/CMakeFiles/Visualization.dir/rule
 
 # Convenience name for target.
-Vizualization: Vizualization/CMakeFiles/Vizualization.dir/rule
-.PHONY : Vizualization
+Visualization: Visualization/CMakeFiles/Visualization.dir/rule
+.PHONY : Visualization
 
 # clean rule for target.
-Vizualization/CMakeFiles/Vizualization.dir/clean:
-	$(MAKE) $(MAKESILENT) -f Vizualization/CMakeFiles/Vizualization.dir/build.make Vizualization/CMakeFiles/Vizualization.dir/clean
-.PHONY : Vizualization/CMakeFiles/Vizualization.dir/clean
+Visualization/CMakeFiles/Visualization.dir/clean:
+	$(MAKE) $(MAKESILENT) -f Visualization/CMakeFiles/Visualization.dir/build.make Visualization/CMakeFiles/Visualization.dir/clean
+.PHONY : Visualization/CMakeFiles/Visualization.dir/clean
 
 #=============================================================================
 # Target rules for target InfoAcquisition/CMakeFiles/InfoAcquisition.dir

@@ -13,7 +13,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/Vizualization/CMakeFiles/Vizualization.dir/DependInfo.cmake"
+  "/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/Visualization/CMakeFiles/Visualization.dir/DependInfo.cmake"
   "/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/InfoAcquisition/CMakeFiles/InfoAcquisition.dir/DependInfo.cmake"
   )
 

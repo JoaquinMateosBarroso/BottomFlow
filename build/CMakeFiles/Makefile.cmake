@@ -9,7 +9,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
   "../CMakeLists.txt"
   "../InfoAcquisition/CMakeLists.txt"
-  "../Vizualization/CMakeLists.txt"
+  "../Visualization/CMakeLists.txt"
   "CMakeFiles/3.22.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.22.1/CMakeSystem.cmake"
   "../indicators/CMakeLists.txt"
@@ -18,15 +18,25 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.22/Modules/CMakeGenericSystem.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake"
+  "/usr/share/cmake-3.22/Modules/CMakePackageConfigHelpers.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake"
   "/usr/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake"
+  "/usr/share/cmake-3.22/Modules/CheckCXXSourceCompiles.cmake"
+  "/usr/share/cmake-3.22/Modules/CheckIncludeFileCXX.cmake"
+  "/usr/share/cmake-3.22/Modules/CheckLibraryExists.cmake"
   "/usr/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
   "/usr/share/cmake-3.22/Modules/Compiler/GNU-CXX.cmake"
   "/usr/share/cmake-3.22/Modules/Compiler/GNU.cmake"
+  "/usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake"
+  "/usr/share/cmake-3.22/Modules/FindPackageMessage.cmake"
+  "/usr/share/cmake-3.22/Modules/FindThreads.cmake"
+  "/usr/share/cmake-3.22/Modules/GNUInstallDirs.cmake"
+  "/usr/share/cmake-3.22/Modules/Internal/CheckSourceCompiles.cmake"
   "/usr/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake"
   "/usr/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake"
   "/usr/share/cmake-3.22/Modules/Platform/Linux.cmake"
   "/usr/share/cmake-3.22/Modules/Platform/UnixPaths.cmake"
+  "/usr/share/cmake-3.22/Modules/WriteBasicConfigVersionFile.cmake"
   )
 
 # The corresponding makefile is:
@@ -38,7 +48,7 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
-  "Vizualization/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "Visualization/CMakeFiles/CMakeDirectoryInformation.cmake"
   "InfoAcquisition/CMakeFiles/CMakeDirectoryInformation.cmake"
   "indicators/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
@@ -46,6 +56,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/bflow.dir/DependInfo.cmake"
-  "Vizualization/CMakeFiles/Vizualization.dir/DependInfo.cmake"
+  "Visualization/CMakeFiles/Visualization.dir/DependInfo.cmake"
   "InfoAcquisition/CMakeFiles/InfoAcquisition.dir/DependInfo.cmake"
   )

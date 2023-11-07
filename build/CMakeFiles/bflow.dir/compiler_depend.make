@@ -183,45 +183,13 @@ CMakeFiles/bflow.dir/main.cpp.o: ../main.cpp \
   /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
   /usr/include/c++/11/bits/fstream.tcc \
-  /usr/include/c++/11/sstream \
-  /usr/include/c++/11/bits/sstream.tcc \
-  /usr/include/c++/11/vector \
-  /usr/include/c++/11/bits/stl_uninitialized.h \
-  /usr/include/c++/11/bits/stl_vector.h \
-  /usr/include/c++/11/bits/stl_bvector.h \
-  /usr/include/c++/11/bits/vector.tcc \
-  /usr/include/c++/11/iterator \
-  /usr/include/c++/11/bits/stream_iterator.h \
-  /usr/include/dirent.h \
-  /usr/include/x86_64-linux-gnu/bits/dirent.h \
-  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
-  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
-  /usr/include/linux/limits.h \
-  /usr/include/x86_64-linux-gnu/bits/dirent_ext.h \
-  /usr/include/unistd.h \
-  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
-  /usr/include/x86_64-linux-gnu/bits/environments.h \
-  /usr/include/x86_64-linux-gnu/bits/confname.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
-  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
-  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
-  /usr/include/linux/close_range.h \
   /usr/include/c++/11/chrono \
   /usr/include/c++/11/ratio \
   /usr/include/c++/11/limits \
   /usr/include/c++/11/ctime \
   /usr/include/c++/11/bits/parse_numbers.h \
-  /usr/include/c++/11/thread \
-  /usr/include/c++/11/bits/std_thread.h \
-  /usr/include/c++/11/tuple \
-  /usr/include/c++/11/utility \
-  /usr/include/c++/11/bits/stl_relops.h \
-  /usr/include/c++/11/array \
-  /usr/include/c++/11/bits/uses_allocator.h \
-  /usr/include/c++/11/bits/invoke.h \
-  /usr/include/c++/11/bits/refwrap.h \
-  /usr/include/c++/11/bits/unique_ptr.h \
-  /usr/include/c++/11/bits/this_thread_sleep.h \
+  /usr/include/c++/11/sstream \
+  /usr/include/c++/11/bits/sstream.tcc \
   /usr/include/termios.h \
   /usr/include/x86_64-linux-gnu/bits/termios.h \
   /usr/include/x86_64-linux-gnu/bits/termios-struct.h \
@@ -234,26 +202,58 @@ CMakeFiles/bflow.dir/main.cpp.o: ../main.cpp \
   /usr/include/x86_64-linux-gnu/bits/termios-tcflow.h \
   /usr/include/x86_64-linux-gnu/bits/termios-misc.h \
   /usr/include/x86_64-linux-gnu/sys/ttydefaults.h \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+  /usr/include/linux/close_range.h \
+  /usr/include/dirent.h \
+  /usr/include/x86_64-linux-gnu/bits/dirent.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/dirent_ext.h \
+  /usr/include/c++/11/iterator \
+  /usr/include/c++/11/bits/stream_iterator.h \
+  /usr/include/c++/11/thread \
+  /usr/include/c++/11/bits/std_thread.h \
+  /usr/include/c++/11/tuple \
+  /usr/include/c++/11/utility \
+  /usr/include/c++/11/bits/stl_relops.h \
+  /usr/include/c++/11/array \
+  /usr/include/c++/11/bits/uses_allocator.h \
+  /usr/include/c++/11/bits/invoke.h \
+  /usr/include/c++/11/bits/refwrap.h \
+  /usr/include/c++/11/bits/unique_ptr.h \
+  /usr/include/c++/11/bits/this_thread_sleep.h \
   /usr/include/fcntl.h \
   /usr/include/x86_64-linux-gnu/bits/fcntl.h \
   /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
   /usr/include/linux/falloc.h \
   /usr/include/x86_64-linux-gnu/bits/stat.h \
-  /usr/include/x86_64-linux-gnu/bits/struct_stat.h
+  /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
+  ../InfoAcquisition/infoAcquisition.hpp \
+  /usr/include/c++/11/vector \
+  /usr/include/c++/11/bits/stl_uninitialized.h \
+  /usr/include/c++/11/bits/stl_vector.h \
+  /usr/include/c++/11/bits/stl_bvector.h \
+  /usr/include/c++/11/bits/vector.tcc \
+  ../Visualization/visualization.hpp
 
+
+/usr/include/c++/11/bits/vector.tcc:
+
+/usr/include/c++/11/bits/stl_bvector.h:
+
+/usr/include/c++/11/bits/stl_uninitialized.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h:
 
 /usr/include/fcntl.h:
-
-/usr/include/x86_64-linux-gnu/sys/ttydefaults.h:
-
-/usr/include/x86_64-linux-gnu/bits/termios-misc.h:
-
-/usr/include/x86_64-linux-gnu/bits/termios-c_lflag.h:
-
-/usr/include/x86_64-linux-gnu/bits/termios-c_cflag.h:
 
 /usr/include/c++/11/bits/refwrap.h:
 
@@ -267,13 +267,15 @@ CMakeFiles/bflow.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/c++/11/bits/std_thread.h:
 
-/usr/include/c++/11/bits/parse_numbers.h:
+/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
 
-/usr/include/c++/11/limits:
-
-/usr/include/c++/11/ratio:
+/usr/include/dirent.h:
 
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
+
+/usr/include/c++/11/vector:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
 
 /usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
 
@@ -281,29 +283,29 @@ CMakeFiles/bflow.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/posix_opt.h:
 
-/usr/include/termios.h:
+/usr/include/x86_64-linux-gnu/sys/ttydefaults.h:
 
-/usr/include/x86_64-linux-gnu/bits/dirent_ext.h:
+/usr/include/x86_64-linux-gnu/bits/termios-misc.h:
 
-/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+/usr/include/x86_64-linux-gnu/bits/termios-c_lflag.h:
 
-/usr/include/x86_64-linux-gnu/bits/termios.h:
+/usr/include/x86_64-linux-gnu/bits/termios-c_cflag.h:
 
 /usr/include/x86_64-linux-gnu/bits/dirent.h:
 
-/usr/include/dirent.h:
+/usr/include/x86_64-linux-gnu/bits/termios.h:
 
-/usr/include/c++/11/bits/vector.tcc:
+/usr/include/x86_64-linux-gnu/bits/dirent_ext.h:
 
-/usr/include/c++/11/bits/stl_bvector.h:
-
-/usr/include/c++/11/bits/stl_uninitialized.h:
-
-/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
-
-/usr/include/c++/11/vector:
+/usr/include/termios.h:
 
 /usr/include/c++/11/sstream:
+
+/usr/include/c++/11/bits/parse_numbers.h:
+
+/usr/include/c++/11/limits:
+
+/usr/include/c++/11/ratio:
 
 /usr/include/c++/11/bits/fstream.tcc:
 
@@ -342,6 +344,8 @@ CMakeFiles/bflow.dir/main.cpp.o: ../main.cpp \
 /usr/include/c++/11/system_error:
 
 /usr/include/c++/11/bits/locale_classes.tcc:
+
+../Visualization/visualization.hpp:
 
 /usr/include/c++/11/bits/basic_string.tcc:
 
@@ -473,11 +477,11 @@ CMakeFiles/bflow.dir/main.cpp.o: ../main.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
-/usr/include/x86_64-linux-gnu/bits/termios-c_oflag.h:
-
 /usr/include/c++/11/bits/unique_ptr.h:
 
 /usr/include/c++/11/iterator:
+
+/usr/include/x86_64-linux-gnu/bits/termios-c_oflag.h:
 
 /usr/include/c++/11/ostream:
 
@@ -718,6 +722,8 @@ CMakeFiles/bflow.dir/main.cpp.o: ../main.cpp \
 /usr/include/c++/11/ext/alloc_traits.h:
 
 /usr/include/c++/11/bits/alloc_traits.h:
+
+../InfoAcquisition/infoAcquisition.hpp:
 
 /usr/include/c++/11/bits/this_thread_sleep.h:
 

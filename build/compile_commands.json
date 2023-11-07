@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build",
+  "command": "/usr/bin/g++  -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/. -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/InfoAcquisition -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/Visualization -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/indicators -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/indicators/include -Wall -O0 -ggdb3 -std=gnu++11 -o CMakeFiles/bflow.dir/main.cpp.o -c /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/main.cpp",
+  "file": "/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/main.cpp"
+},
+{
+  "directory": "/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/Visualization",
+  "command": "/usr/bin/g++  -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/. -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/Visualization/. -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/Visualization/../InfoAcquisition -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/Visualization/../indicators -Wall -O0 -ggdb3 -std=gnu++11 -o CMakeFiles/Visualization.dir/visualization.cpp.o -c /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/Visualization/visualization.cpp",
+  "file": "/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/Visualization/visualization.cpp"
+},
+{
+  "directory": "/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/InfoAcquisition",
+  "command": "/usr/bin/g++  -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/. -I/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/InfoAcquisition/. -Wall -O0 -ggdb3 -std=gnu++11 -o CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.o -c /home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/InfoAcquisition/infoAcquisition.cpp",
+  "file": "/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/InfoAcquisition/infoAcquisition.cpp"
+}
+]
