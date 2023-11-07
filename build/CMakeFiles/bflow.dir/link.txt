@@ -1,1 +1,0 @@
-/usr/bin/g++ -Wall -O0 -ggdb3 -rdynamic CMakeFiles/bflow.dir/main.cpp.o -o bflow  Visualization/libVisualization.a InfoAcquisition/libInfoAcquisition.a 
