@@ -1,0 +1,11 @@
+/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/CMakeFiles/bflow.dir
+/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/CMakeFiles/edit_cache.dir
+/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/CMakeFiles/rebuild_cache.dir
+/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/Vizualization/CMakeFiles/Vizualization.dir
+/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/Vizualization/CMakeFiles/edit_cache.dir
+/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/Vizualization/CMakeFiles/rebuild_cache.dir
+/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/InfoAcquisition/CMakeFiles/InfoAcquisition.dir
+/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/InfoAcquisition/CMakeFiles/edit_cache.dir
+/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/InfoAcquisition/CMakeFiles/rebuild_cache.dir
+/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/indicators/CMakeFiles/edit_cache.dir
+/home/joaquin/Documents/Asignaturas/CESI/practica/BottomFlow/build/indicators/CMakeFiles/rebuild_cache.dir

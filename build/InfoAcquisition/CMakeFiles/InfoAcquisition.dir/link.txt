@@ -1,0 +1,2 @@
+/usr/bin/ar qc libInfoAcquisition.a CMakeFiles/InfoAcquisition.dir/infoAcquisition.cpp.o
+/usr/bin/ranlib libInfoAcquisition.a

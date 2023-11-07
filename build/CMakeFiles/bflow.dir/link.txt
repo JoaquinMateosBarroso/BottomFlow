@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wall -rdynamic CMakeFiles/bflow.dir/main.cpp.o -o bflow  Vizualization/libVizualization.a InfoAcquisition/libInfoAcquisition.a 
