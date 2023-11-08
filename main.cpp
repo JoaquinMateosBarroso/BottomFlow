@@ -18,6 +18,7 @@
 using namespace std;
 
 
+/*TO BE EXPANDED*/
 const char* const short_opts = "h";
 const option long_opts[] = {
     {"help", no_argument, nullptr, 'h'}
@@ -26,6 +27,7 @@ const option long_opts[] = {
 void printHelp(){
     std::cout << "El programa acepta los siguientes argumentos:\n"
         "-h --help: imprime esta ayuda";
+    /*TO BE EXPANDED*/
 }
 
 int main() {
@@ -45,6 +47,7 @@ int main() {
             printHelp();
             exit(EXIT_SUCCESS);
             break;
+            /*TO BE EXPANDED*/
         }
     }
     
