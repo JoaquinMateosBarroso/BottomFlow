@@ -13,5 +13,5 @@ add_subdirectory(indicators)
 include_directories("InfoAcquisition" "Visualization" "indicators")
 
 
-add_executable(bflow main.cpp)
+add_executable(bflow main.cpp utilities.hpp utilities.cpp)
 target_link_libraries(bflow Visualization InfoAcquisition indicators)

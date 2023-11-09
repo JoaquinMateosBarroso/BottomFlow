@@ -1,62 +1,41 @@
 #include <iostream>
-#include <fstream>
-#include <string>
-#include <chrono>
-#include <sstream>
-#include <termios.h>
 #include <unistd.h>
-#include <dirent.h>
-#include <iterator>
-#include <thread>
-#include <fcntl.h>
-#include <stdlib.h>
 
+#include "utilities.hpp"
 #include "infoAcquisition.hpp"
 #include "visualization.hpp"
 
 
 using namespace std;
+int main(int argc, char* argv[]) {
+    int in = 0;
 
+    Arguments args = parseArgs(argc, argv);
 
-/*TO BE EXPANDED*/
-const char* const short_opts = "h";
-const option long_opts[] = {
-    {"help", no_argument, nullptr, 'h'}
-};
+    if (args.csvName != "")
+        SaveToCSVHeader(args.csvName);
 
-void printHelp(){
-    std::cout << "El programa acepta los siguientes argumentos:\n"
-        "-h --help: imprime esta ayuda";
-    /*TO BE EXPANDED*/
-}
-
-int main() {
-    bool still_reading = true;
-    int in = 1;
-    in = getKey(500);
-
-    while(still_reading){
-        const auto opt = getopt_long(argc, argv, short_opts, long_opts, nullptr);
-        
-        if(opt == -1){
-            still_reading = false;
-        }
-
-        switch(opt){
-            case 'h':
-            printHelp();
-            exit(EXIT_SUCCESS);
-            break;
-            /*TO BE EXPANDED*/
-        }
-    }
     
     while (in != 'e')
     {
         system("clear");
-        std::vector<ProcessInfo> processes = ReadProcFileSystem();
+
+        vector<ProcessInfo> processes = ReadProcFileSystem();
         DisplayProcessInfo(processes);
-        DisplayBar();
+
+        if (args.csvName != "")
+            SaveToCSV(processes, args.csvName, args.timeout);
+
+        if (in == 's')
+            cout << "Aquí tendremos que implementar la lógica para pedir el parámetro por el que ordenamos" << endl;
+
+        if (args.displayBar)
+            DisplayBar(args.timeout);
+        else
+            usleep(args.timeout*1000); // usleep sleeps microseconds, so we need to multiply by 1000 to get milliseconds
+
+
+        in = getKey(1);
     }
     return 0;
 }

@@ -12,14 +12,18 @@
 
 using namespace std;
 
-void DisplayProcessInfo(vector<ProcessInfo>& processes, int number_of_processes) {
-    processes.resize(number_of_processes); 
+void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_processes) {
+    // Resize the vector if needed
+    if (number_of_processes < processes.size()) {
+        processes.resize(number_of_processes);
+    }
 
+    // Display header
+    cout << left << setw(5) << "PID" << setw(40) << "Name" << setw(8) << "Status" << "CPU Usage (%)" << endl;
 
-    cout << "PID\tName\tStatus" << endl;
-    for (auto process : processes) {
-        cout << process.pid << "\t" << process.name << "\t" << process.status << "\t"
-                  "CPU usage:" << process.cpu_usage << endl;
+    // Display process information
+    for (const auto& process : processes) {
+        cout << setw(5) << process.pid << setw(40) << process.name << setw(8) << process.status << process.cpu_usage << endl;
     }
 }
 
@@ -28,13 +32,13 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, int number_of_processes)
 char getKey(int timeoutMs)
 {
     char ch = 0;
-    std::chrono::milliseconds timeout(timeoutMs);
+    chrono::milliseconds timeout(timeoutMs);
 
-    auto start_time = std::chrono::high_resolution_clock::now();
+    auto start_time = chrono::high_resolution_clock::now();
     bool gotChar = false;
 
     do {
-        if (std::chrono::high_resolution_clock::now() - start_time >= timeout) {
+        if (chrono::high_resolution_clock::now() - start_time >= timeout) {
             break; // Timeout reached
         }
 
@@ -66,22 +70,27 @@ char getKey(int timeoutMs)
 
 int DisplayBar(int msToCharge)
 {
+    cout << endl;
+    
     using namespace indicators;
 
     BlockProgressBar bar{
         option::BarWidth{80},
         option::Start{"["},
         option::End{"]"},
-        option::ForegroundColor{Color::white}  ,
-        option::FontStyles{std::vector<FontStyle>{FontStyle::bold}}
+        option::ForegroundColor{Color::green}  ,
+        option::FontStyles{vector<FontStyle>{FontStyle::bold}}
     };
 
     // Update bar state
     while (true) {
         bar.tick();
+        // Alternatively, you may use `set_progress` to update the progress bar
+        // bar.set_progress(10*i++);
+
         if (bar.is_completed())
         break;
-        std::this_thread::sleep_for(std::chrono::milliseconds(int(float(msToCharge)/100)));
+        this_thread::sleep_for(chrono::milliseconds(int(float(msToCharge)/100)));
     }
 
     return 0;

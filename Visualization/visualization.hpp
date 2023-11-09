@@ -4,7 +4,7 @@
 #include "infoAcquisition.hpp"
 
 
-void DisplayProcessInfo(std::vector<ProcessInfo>& processes, int number_of_processes = 10);
+void DisplayProcessInfo(std::vector<ProcessInfo>& processes, unsigned number_of_processes = 10);
 
 /** Function to get key without waiting
  * @param timeoutMs timeout in milliseconds
