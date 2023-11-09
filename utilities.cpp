@@ -14,7 +14,6 @@ void printHelp(){
         "-b --displayBar: muestra la barra de progreso\n"
         "\n"
         "-g --saveToCSV: guarda la información en un fichero CSV\n";
-    /*TO BE EXPANDED*/
 }
 
 
