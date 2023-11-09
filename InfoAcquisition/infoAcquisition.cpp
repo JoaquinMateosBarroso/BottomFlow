@@ -114,6 +114,41 @@ double GetTotalCpuTime() {
     return 1.0; // Return a small value to avoid division by zero.
 }
 
+double GetProcessNetUsage(int pid){
+    std::string proc_dir = "/proc/" + std::to_string(pid);
+    std::ifstream net_file(proc_dir + "/net/dev");
+
+    if(net_file.is_open()){
+        std::string line;
+        std::getline(net_file, line);
+        std::getline(net_file, line);
+
+        while (std::getline(net_file, line)) {
+            std::istringstream iss(line);
+            std::string interface;
+            iss >> interface;
+
+            //Interfaces filtered by :
+            if (interface.back() == ':') {
+                //':' deletion
+                interface.pop_back();
+
+                //Read stats
+                unsigned long long int rx_bytes, tx_bytes;
+                iss >> rx_bytes >> tx_bytes;
+
+                //Imprimir estadísticas de red para la interfaz
+                std::cout << "Interfaz: " << interface << std::endl;
+                std::cout << "Bytes recibidos: " << rx_bytes << std::endl;
+                std::cout << "Bytes enviados: " << tx_bytes << std::endl;
+                std::cout << "----------------------" << std::endl;
+            }
+        }
+        net_file.close();
+    }
+    return 1;
+}
+
 
 
 

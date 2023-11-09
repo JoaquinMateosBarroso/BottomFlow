@@ -34,5 +34,13 @@ double GetProcessCpuUsage(int pid);
 double GetTotalCpuTime();
 
 
+/**
+ * @brief Get the Process Net Usage object
+ * 
+ * @param pid The process identifier
+ * @return double 
+ */
+double GetProcessNetUsage(int pid);
+
 
 #endif
