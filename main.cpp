@@ -5,8 +5,8 @@
 #include "infoAcquisition.hpp"
 #include "visualization.hpp"
 
-
 using namespace std;
+
 int main(int argc, char* argv[]) {
     int in = 0;
 

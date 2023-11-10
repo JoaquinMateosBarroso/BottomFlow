@@ -52,6 +52,12 @@ std::vector<ProcessInfo> ReadProcFileSystem() {
                 status_file.close();
             }
             process.cpu_usage = GetProcessCpuUsage(process.pid);
+
+            struct NetTraffic net_traffic;
+            net_traffic = GetProcessNetUsage(process.pid);
+            process.in_traffic = net_traffic.in;
+            process.out_traffic = net_traffic.out;
+
             processes.push_back(process);
         }
     }
@@ -114,9 +120,13 @@ double GetTotalCpuTime() {
     return 1.0; // Return a small value to avoid division by zero.
 }
 
-double GetProcessNetUsage(int pid){
+struct NetTraffic GetProcessNetUsage(int pid){
     std::string proc_dir = "/proc/" + std::to_string(pid);
     std::ifstream net_file(proc_dir + "/net/dev");
+
+    struct NetTraffic net_traffic;
+    net_traffic.in = -1;
+    net_traffic.out = -1;
 
     if(net_file.is_open()){
         std::string line;
@@ -138,15 +148,13 @@ double GetProcessNetUsage(int pid){
                 iss >> rx_bytes >> tx_bytes;
 
                 //Imprimir estadísticas de red para la interfaz
-                std::cout << "Interfaz: " << interface << std::endl;
-                std::cout << "Bytes recibidos: " << rx_bytes << std::endl;
-                std::cout << "Bytes enviados: " << tx_bytes << std::endl;
-                std::cout << "----------------------" << std::endl;
+                net_traffic.in = rx_bytes;
+                net_traffic.out = tx_bytes;
             }
         }
         net_file.close();
     }
-    return 1;
+    return net_traffic;
 }
 
 

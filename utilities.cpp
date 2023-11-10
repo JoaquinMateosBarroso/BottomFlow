@@ -57,7 +57,8 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
         std::ostringstream oss;
         oss << std::put_time(timeinfo, "%Y-%m-%d %H:%M:%S");
 
-        file << oss.str() << ',' << info.pid << ',' << info.name << ',' << info.status << ',' << info.cpu_usage << '\n';
+        file << oss.str() << ',' << info.pid << ',' << info.name << ',' << info.status << ',' << info.cpu_usage <<
+        ',' << info.in_traffic << ',' << info.out_traffic << '\n';
     }
 
     // Close the file
@@ -69,6 +70,6 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
 void SaveToCSVHeader(const string &fileName)
 {
     std::ofstream file(fileName);
-    file << "Time,PID,Name,Status,CPU Usage (%)\n";
+    file << "Time,PID,Name,Status,CPU Usage (%),InBytes,OutBytes\n";
     file.close();
 }

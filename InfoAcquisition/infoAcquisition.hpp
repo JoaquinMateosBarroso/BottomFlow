@@ -8,7 +8,14 @@ struct ProcessInfo {
     int pid;
     std::string name;
     std::string status;
-    double cpu_usage;  
+    double cpu_usage;
+    double in_traffic;
+    double out_traffic;
+};
+
+struct NetTraffic{
+    double in;
+    double out;
 };
 
 /**
@@ -38,9 +45,11 @@ double GetTotalCpuTime();
  * @brief Get the Process Net Usage object
  * 
  * @param pid The process identifier
- * @return double 
+ * @return struct NetTraffic The in and out traffic of the process
+ * 
+ * @post (in < 0 && out < 0): error en la apertura del fichero
  */
-double GetProcessNetUsage(int pid);
+struct NetTraffic GetProcessNetUsage(int pid);
 
 
 #endif

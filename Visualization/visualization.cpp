@@ -20,10 +20,12 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_proce
 
     // Display header
     cout << left << setw(5) << "PID" << setw(40) << "Name" << setw(8) << "Status" << "CPU Usage (%)" << endl;
+        //"InBytes" << "OutBytes" << endl;
 
     // Display process information
     for (const auto& process : processes) {
         cout << setw(5) << process.pid << setw(40) << process.name << setw(8) << process.status << process.cpu_usage << endl;
+            //<< setw(10) << process.in_traffic << setw(10) << process.out_traffic << endl;
     }
 }
 
