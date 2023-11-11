@@ -45,7 +45,14 @@ void printHelp();
 Arguments parseArgs(int argc, char* argv[]);    
 
 
-
+/**
+ * @brief Saves information to a CSV file
+ * 
+ * @param data The data to be stored
+ * @param filename The name of the file
+ * @param timeout The frequency of updating
+ * @param arguments The elements to be stored
+ */
 void SaveToCSV(const std::vector<ProcessInfo>& data, const std::string& filename, int timeout,
     std::vector<int> arguments);
 

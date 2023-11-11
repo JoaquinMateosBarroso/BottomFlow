@@ -71,7 +71,7 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
         oss << std::put_time(timeinfo, "%Y-%m-%d %H:%M:%S");
 
         file << oss.str() << ',' << info.pid << ',' << info.name << ',' << info.status << ',' << info.cpu_usage;
-        //',' << info.in_traffic << ',' << info.out_traffic << '\n';
+        
         for(uint i=0; i<arguments.size(); i++){
             switch(arguments[i]){
             case 'r':
@@ -82,7 +82,6 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
         file << "\n";
     }
 
-    // Close the file
     file.close();
 
 }
