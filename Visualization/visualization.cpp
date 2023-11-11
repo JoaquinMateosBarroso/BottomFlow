@@ -39,7 +39,7 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_proce
         for(uint i=0; i<arguments.size(); i++){
             switch(arguments[i]){
                 case 'r':
-                    displayCNetUsage(process);
+                    displayNetUsage(process);
                     break;
             }
         }
@@ -51,12 +51,10 @@ void displayCPUUsage(struct ProcessInfo process){
     std::cout << setw(8) << process.status << setw(15) << process.cpu_usage;
 }
 
-void displayCNetUsage(struct ProcessInfo process){
+void displayNetUsage(struct ProcessInfo process){
     std::cout << setw(12) <<process.in_traffic << setw(12) << process.out_traffic;
 }
 
-// Function to get key without waiting
-// returns 0 if no key is pressed
 char getKey(int timeoutMs)
 {
     char ch = 0;
