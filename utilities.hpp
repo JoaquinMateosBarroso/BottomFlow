@@ -46,9 +46,10 @@ Arguments parseArgs(int argc, char* argv[]);
 
 
 
-void SaveToCSV(const std::vector<ProcessInfo>& data, const std::string& filename, int timeout);
+void SaveToCSV(const std::vector<ProcessInfo>& data, const std::string& filename, int timeout,
+    std::vector<int> arguments);
 
-void SaveToCSVHeader(const std::string &fileName);
+void SaveToCSVHeader(const std::string &fileName, std::vector<int> arguments);
 
 
 #endif

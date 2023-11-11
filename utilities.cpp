@@ -55,7 +55,8 @@ Arguments parseArgs(int argc, char* argv[]){
 }
 
 
-void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int timeout)
+void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int timeout,
+    std::vector<int> arguments)
 {
     std::ofstream file(filename, std::ios_base::app); // Open in append mode
 
@@ -69,8 +70,16 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
         std::ostringstream oss;
         oss << std::put_time(timeinfo, "%Y-%m-%d %H:%M:%S");
 
-        file << oss.str() << ',' << info.pid << ',' << info.name << ',' << info.status << ',' << info.cpu_usage <<
-        ',' << info.in_traffic << ',' << info.out_traffic << '\n';
+        file << oss.str() << ',' << info.pid << ',' << info.name << ',' << info.status << ',' << info.cpu_usage;
+        //',' << info.in_traffic << ',' << info.out_traffic << '\n';
+        for(uint i=0; i<arguments.size(); i++){
+            switch(arguments[i]){
+            case 'r':
+                file << ',' << info.in_traffic << ',' << info.out_traffic;
+                break;
+            }
+        }
+        file << "\n";
     }
 
     // Close the file
@@ -79,9 +88,17 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
 }
 
 
-void SaveToCSVHeader(const string &fileName)
+void SaveToCSVHeader(const string &fileName, std::vector<int> arguments)
 {
     std::ofstream file(fileName);
-    file << "Time,PID,Name,Status,CPU Usage (%),InBytes,OutBytes\n";
+    file << "Time,PID,Name,Status,CPU Usage (%)";
+    for(uint i=0; i<arguments.size(); i++){
+        switch(arguments[i]){
+            case 'r':
+                file << "InputBytes,OutputBytes";
+                break;
+        }
+    }
+    file << "\n";
     file.close();
 }

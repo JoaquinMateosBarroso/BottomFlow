@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
     Arguments args = parseArgs(argc, argv);
 
     if (args.csvName != "")
-        SaveToCSVHeader(args.csvName);
+        SaveToCSVHeader(args.csvName, args.argument_vector);
 
     
     while (in != 'e')
@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
         DisplayProcessInfo(processes, args.n_process, args.argument_vector);
 
         if (args.csvName != "")
-            SaveToCSV(processes, args.csvName, args.timeout);
+            SaveToCSV(processes, args.csvName, args.timeout, args.argument_vector);
 
         if (in == 's')
             cout << "Aquí tendremos que implementar la lógica para pedir el parámetro por el que ordenamos" << endl;
