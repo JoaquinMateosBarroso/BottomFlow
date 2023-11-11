@@ -4,7 +4,12 @@
 #include "infoAcquisition.hpp"
 
 
-void DisplayProcessInfo(std::vector<ProcessInfo>& processes, unsigned number_of_processes = 10);
+void DisplayProcessInfo(std::vector<ProcessInfo>& processes, unsigned number_of_processes,
+    std::vector<int> arguments);
+
+void displayCPUUsage(struct ProcessInfo process);
+
+void displayCNetUsage(struct ProcessInfo process);
 
 /** Function to get key without waiting
  * @param timeoutMs timeout in milliseconds

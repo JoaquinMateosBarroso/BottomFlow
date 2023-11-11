@@ -12,21 +12,47 @@
 
 using namespace std;
 
-void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_processes) {
+void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_processes,
+    std::vector<int> arguments) {
     // Resize the vector if needed
     if (number_of_processes < processes.size()) {
         processes.resize(number_of_processes);
     }
 
     // Display header
-    cout << left << setw(5) << "PID" << setw(40) << "Name" << setw(8) << "Status" << "CPU Usage (%)" << endl;
-        //"InBytes" << "OutBytes" << endl;
+    cout << left << setw(6) << "PID" << setw(40) << "Name" << setw(8) << "Status" << setw(15) << "CPU Usage (%)";
+    for(uint i=0; i<arguments.size(); i++){
+        switch(arguments[i]){
+            case 'r':
+                cout << setw(12) << "InTraffic" << setw(12) << "OutTraffic";
+        }
+    }
+    cout << "\n";
 
     // Display process information
     for (const auto& process : processes) {
-        cout << setw(5) << process.pid << setw(40) << process.name << setw(8) << process.status << process.cpu_usage << endl;
-            //<< setw(10) << process.in_traffic << setw(10) << process.out_traffic << endl;
+        cout << setw(6) << process.pid << setw(40) << process.name;
+        
+        displayCPUUsage(process);
+
+        
+        for(uint i=0; i<arguments.size(); i++){
+            switch(arguments[i]){
+                case 'r':
+                    displayCNetUsage(process);
+                    break;
+            }
+        }
+        cout << "\n";
     }
+}
+
+void displayCPUUsage(struct ProcessInfo process){
+    std::cout << setw(8) << process.status << setw(15) << process.cpu_usage;
+}
+
+void displayCNetUsage(struct ProcessInfo process){
+    std::cout << setw(12) <<process.in_traffic << setw(12) << process.out_traffic;
 }
 
 // Function to get key without waiting

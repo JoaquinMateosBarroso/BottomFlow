@@ -13,16 +13,21 @@ void printHelp(){
         "-t --timeout: tiempo de refresco en milisegundos\n"
         "-b --displayBar: muestra la barra de progreso\n"
         "\n"
-        "-g --saveToCSV: guarda la información en un fichero CSV\n";
+        "-g --saveToCSV: guarda la información en un fichero CSV\n"
+        "-n --number: modifica el número de procesos mostrados\n"
+        "-r --net: muestra el tráfico de red por proceso";
 }
 
 
 Arguments parseArgs(int argc, char* argv[]){
     Arguments args;
     int opt = 0;
+
     while(opt != -1){
         opt = getopt_long(argc, argv, short_opts, long_opts, nullptr);
 
+
+        args.argument_vector.push_back(opt);
         switch(opt){
             case 'h':
                 printHelp();
@@ -36,6 +41,13 @@ Arguments parseArgs(int argc, char* argv[]){
             case 'g':
                 args.csvName = optarg;
                 break;
+            case 'n':
+                args.n_process = atoi(optarg);
+                break;
+            case 'r':
+
+                break;
+            
             /*TO BE EXPANDED*/
         }
     }

@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
         system("clear");
 
         vector<ProcessInfo> processes = ReadProcFileSystem();
-        DisplayProcessInfo(processes);
+        DisplayProcessInfo(processes, args.n_process, args.argument_vector);
 
         if (args.csvName != "")
             SaveToCSV(processes, args.csvName, args.timeout);

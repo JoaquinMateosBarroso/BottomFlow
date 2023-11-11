@@ -7,7 +7,7 @@
 #include "infoAcquisition.hpp"
 
 /*TO BE EXPANDED*/
-const char* const short_opts = "ht:bg:";
+const char* const short_opts = "ht:bg:n:r";
 
 const option long_opts[] = {
     {"help", no_argument, nullptr, 'h'},
@@ -15,13 +15,17 @@ const option long_opts[] = {
     {"displaybar", no_argument, nullptr, 'b'},
 
     {"saveToCSV", required_argument, nullptr, 'g'},
+    {"number", required_argument, nullptr, 'n'},
+    {"net", no_argument, nullptr, 'r'}
 };
 
 struct Arguments {
     int timeout = 2000;
     bool displayBar = false;
+    int n_process = 10;
 
     std::string csvName = "";
+    std::vector<int> argument_vector;
 };
 
 /**
@@ -31,6 +35,13 @@ struct Arguments {
 void printHelp();
 
 
+/**
+ * @brief Parses the arguments from command line
+ * 
+ * @param argc Number of arguments
+ * @param argv Vector of arugments
+ * @return Arguments The arguments properly treated
+ */
 Arguments parseArgs(int argc, char* argv[]);    
 
 
