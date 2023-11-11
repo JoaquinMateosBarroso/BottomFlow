@@ -9,13 +9,13 @@ using namespace std;
 
 void printHelp(){
     std::cout << "El programa acepta los siguientes argumentos:\n"
-        "-h --help: imprime esta ayuda\n"
-        "-t --timeout: tiempo de refresco en milisegundos\n"
-        "-b --displayBar: muestra la barra de progreso\n"
+        "-h, --help: imprime esta ayuda\n"
+        "-t, --timeout: tiempo de refresco en milisegundos\n"
+        "-b, --displayBar: muestra la barra de progreso\n"
         "\n"
-        "-g --saveToCSV: guarda la información en un fichero CSV\n"
-        "-n --number: modifica el número de procesos mostrados\n"
-        "-r --net: muestra el tráfico de red por proceso";
+        "-g, --saveToCSV: guarda la información en un fichero CSV\n"
+        "-n, --number: modifica el número de procesos mostrados\n"
+        "-r, --net: muestra el tráfico de red por proceso";
 }
 
 

@@ -39,7 +39,7 @@ void printHelp();
  * @brief Parses the arguments from command line
  * 
  * @param argc Number of arguments
- * @param argv Vector of arugments
+ * @param argv Vector of arguments
  * @return Arguments The arguments properly treated
  */
 Arguments parseArgs(int argc, char* argv[]);    
