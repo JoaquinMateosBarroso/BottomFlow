@@ -64,11 +64,36 @@ void SaveToCSV(const std::vector<ProcessInfo>& data, const std::string& filename
  */
 void SaveToCSVHeader(const std::string &fileName, std::vector<int> arguments);
 
+/**
+ * @brief Sorts the processes given a parameter
+ * 
+ * @param processes The vector of processes
+ * @param sort_counter The iterator that will decide the parameter on which the vector
+ * will be sorted
+ * @param arguments A vector of arguments to retrieve the parameter to sort
+ */
 void sortProcesses(std::vector<ProcessInfo> &processes, int &sort_counter,
     std::vector<int> arguments);
 
+/**
+ * @brief Compares CPU usage of processes
+ * 
+ * @param process1 The first process
+ * @param process2 The second process
+ * @return true First process CPU usage is greater
+ * @return false First process CPU usage is lower
+ */
 bool cpu_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
 
+
+/**
+ * @brief Compares network usage of processes
+ * 
+ * @param process1 The first process
+ * @param process2 The second process
+ * @return true First process network usage is greater
+ * @return false First process network usage is lower
+ */
 bool net_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
 
 #endif
