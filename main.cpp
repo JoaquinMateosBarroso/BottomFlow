@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
         sortProcesses(processes, sort_counter, args.argument_vector);
         DisplayProcessInfo(processes, args.n_process, args.argument_vector);
 
-        std::cout << "\n\n\n" << (sort_counter-1) << "\n\n\n";
+        //std::cout << "\n\n\n" << (sort_counter-1) << "\n\n\n";
 
         if (args.csvName != "")
             SaveToCSV(processes, args.csvName, args.timeout, args.argument_vector);
