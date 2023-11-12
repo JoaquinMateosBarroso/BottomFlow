@@ -14,6 +14,7 @@ using namespace std;
 
 void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_processes,
     std::vector<int> arguments) {
+    
     // Resize the vector if needed
     if (number_of_processes < processes.size()) {
         processes.resize(number_of_processes);

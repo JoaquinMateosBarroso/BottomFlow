@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iomanip>
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -15,7 +16,7 @@ void printHelp(){
         "\n"
         "-g, --saveToCSV: guarda la información en un fichero CSV\n"
         "-n, --number: modifica el número de procesos mostrados\n"
-        "-r, --net: muestra el tráfico de red por proceso";
+        "-r, --net: muestra el tráfico de red por proceso\n";
 }
 
 
@@ -27,7 +28,6 @@ Arguments parseArgs(int argc, char* argv[]){
         opt = getopt_long(argc, argv, short_opts, long_opts, nullptr);
 
 
-        args.argument_vector.push_back(opt);
         switch(opt){
             case 'h':
                 printHelp();
@@ -45,7 +45,7 @@ Arguments parseArgs(int argc, char* argv[]){
                 args.n_process = atoi(optarg);
                 break;
             case 'r':
-
+                args.argument_vector.push_back(opt);
                 break;
             
             /*TO BE EXPANDED*/
@@ -100,4 +100,33 @@ void SaveToCSVHeader(const string &fileName, std::vector<int> arguments)
     }
     file << "\n";
     file.close();
+}
+
+void sortProcesses(std::vector<ProcessInfo> &processes, int &sort_counter,
+    std::vector<int> arguments)
+{
+    if((sort_counter - 1) == -1){
+        std::sort(processes.begin(), processes.end(), cpu_comparison);
+    }else{
+        switch(arguments[sort_counter-1]){
+            case 'r':
+                std::sort(processes.begin(), processes.end(), cpu_comparison);
+                break;
+        }
+    }
+}
+
+bool cpu_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
+    if(process1.cpu_usage > process2.cpu_usage)
+        return true;
+    else
+        return false;
+    
+}
+
+bool net_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
+    if(process1.in_traffic > process2.in_traffic)
+        return true;
+    else
+        return false;
 }

@@ -9,6 +9,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     int in = 0;
+    int sort_counter = 0;
 
     Arguments args = parseArgs(argc, argv);
 
@@ -21,13 +22,16 @@ int main(int argc, char* argv[]) {
         system("clear");
 
         vector<ProcessInfo> processes = ReadProcFileSystem();
+        sortProcesses(processes, sort_counter, args.argument_vector);
         DisplayProcessInfo(processes, args.n_process, args.argument_vector);
+
+        //std::cout << "\n\n\n" << (sort_counter-1) << "\n\n\n";
 
         if (args.csvName != "")
             SaveToCSV(processes, args.csvName, args.timeout, args.argument_vector);
 
         if (in == 's')
-            cout << "Aquí tendremos que implementar la lógica para pedir el parámetro por el que ordenamos" << endl;
+            sort_counter = (sort_counter + 1) % args.argument_vector.size();
 
         if (args.displayBar)
             DisplayBar(args.timeout);

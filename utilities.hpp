@@ -64,5 +64,11 @@ void SaveToCSV(const std::vector<ProcessInfo>& data, const std::string& filename
  */
 void SaveToCSVHeader(const std::string &fileName, std::vector<int> arguments);
 
+void sortProcesses(std::vector<ProcessInfo> &processes, int &sort_counter,
+    std::vector<int> arguments);
+
+bool cpu_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
+
+bool net_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
 
 #endif
