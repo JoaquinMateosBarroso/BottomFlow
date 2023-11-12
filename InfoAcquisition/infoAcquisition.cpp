@@ -11,7 +11,7 @@
 
 #include "infoAcquisition.hpp"
 
-std::vector<ProcessInfo> ReadProcFileSystem() {
+std::vector<ProcessInfo> ReadProcFileSystem(std::vector<int>& arguments) {
     std::vector<ProcessInfo> processes;
 
     // Open the "/proc" directory.
@@ -53,11 +53,20 @@ std::vector<ProcessInfo> ReadProcFileSystem() {
             }
             process.cpu_usage = GetProcessCpuUsage(process.pid);
 
-            struct NetTraffic net_traffic;
-            net_traffic = GetProcessNetUsage(process.pid);
-            process.in_traffic = net_traffic.in;
-            process.out_traffic = net_traffic.out;
-
+            for(uint i=0; i<arguments.size(); i++){
+                switch(arguments[i]){
+                    case 'r':
+                        struct NetTraffic net_traffic;
+                        net_traffic = GetProcessNetUsage(process.pid);
+                        process.in_traffic = net_traffic.in;
+                        process.out_traffic = net_traffic.out;
+                    break;
+                    case 'm':
+                        process.used_memory = getProcessRAMUsage(process.pid);
+                    break;
+                }
+            }
+            
             processes.push_back(process);
         }
     }
@@ -158,7 +167,35 @@ struct NetTraffic GetProcessNetUsage(int pid){
 }
 
 
+long int getProcessRAMUsage(int pid) {
+    long int rss = -1;  
 
+    std::string statusFilePath = "/proc/" + std::to_string(pid) + "/status";
+
+    std::ifstream statusFile(statusFilePath);
+    if (!statusFile.is_open()) {
+        std::cerr << "Error: Unable to open " << statusFilePath << std::endl;
+        return rss;
+    }
+
+    std::string line;
+    while (std::getline(statusFile, line)) {
+        std::istringstream iss(line);
+        std::string key, value;
+        iss >> key;
+
+        if (key == "VmRSS:") {
+            iss >> rss;
+            break;
+        }
+    }
+
+    statusFile.close();
+    
+    rss = rss >> 10;            //MB display
+
+    return rss;
+}
 
 
 

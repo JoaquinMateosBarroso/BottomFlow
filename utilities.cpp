@@ -47,6 +47,9 @@ Arguments parseArgs(int argc, char* argv[]){
             case 'r':
                 args.argument_vector.push_back(opt);
                 break;
+            case 'm':
+                args.argument_vector.push_back(opt);
+                break;
             
             /*TO BE EXPANDED*/
         }
@@ -65,7 +68,7 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
 
     // Write data to the CSV file
     for (const auto& info : data) {
-        
+
         // Format timestamp
         std::tm* timeinfo = std::localtime(&currentTime);
         std::ostringstream oss;
@@ -111,7 +114,10 @@ void sortProcesses(std::vector<ProcessInfo> &processes, int &sort_counter,
     }else{
         switch(arguments[sort_counter-1]){
             case 'r':
-                std::sort(processes.begin(), processes.end(), cpu_comparison);
+                std::sort(processes.begin(), processes.end(), net_comparison);
+                break;
+            case 'm':
+                std::sort(processes.begin(), processes.end(), ram_comparison);
                 break;
         }
     }
@@ -127,6 +133,13 @@ bool cpu_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
 
 bool net_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
     if(process1.in_traffic > process2.in_traffic)
+        return true;
+    else
+        return false;
+}
+
+bool ram_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
+    if(process1.used_memory > process2.used_memory)
         return true;
     else
         return false;

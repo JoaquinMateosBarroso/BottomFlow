@@ -21,7 +21,7 @@ int main(int argc, char* argv[]) {
     {
         system("clear");
 
-        vector<ProcessInfo> processes = ReadProcFileSystem();
+        vector<ProcessInfo> processes = ReadProcFileSystem(args.argument_vector);
         sortProcesses(processes, sort_counter, args.argument_vector);
         DisplayProcessInfo(processes, args.n_process, args.argument_vector);
 

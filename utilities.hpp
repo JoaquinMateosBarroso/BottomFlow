@@ -7,7 +7,7 @@
 #include "infoAcquisition.hpp"
 
 /*TO BE EXPANDED*/
-const char* const short_opts = "ht:bg:n:r";
+const char* const short_opts = "ht:bg:n:rm";
 
 const option long_opts[] = {
     {"help", no_argument, nullptr, 'h'},
@@ -16,7 +16,8 @@ const option long_opts[] = {
 
     {"saveToCSV", required_argument, nullptr, 'g'},
     {"number", required_argument, nullptr, 'n'},
-    {"net", no_argument, nullptr, 'r'}
+    {"net", no_argument, nullptr, 'r'},
+    {"memory", no_argument, nullptr, 'm'}
 };
 
 struct Arguments {
@@ -89,11 +90,18 @@ bool cpu_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
 /**
  * @brief Compares network usage of processes
  * 
- * @param process1 The first process
- * @param process2 The second process
- * @return true First process network usage is greater
- * @return false First process network usage is lower
+ 
  */
 bool net_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
+
+/**
+ * @brief Compares RAM usage of processes
+ * 
+ * @param process1 The first process
+ * @param process2 The second process
+ * @return true First process RAM usage is greater
+ * @return false First process RAM usage is lower
+ */
+bool ram_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
 
 #endif

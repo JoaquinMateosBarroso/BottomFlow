@@ -26,12 +26,16 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_proce
         switch(arguments[i]){
             case 'r':
                 cout << setw(12) << "InTraffic" << setw(12) << "OutTraffic";
+            break;
+            case 'm':
+                cout << setw(16) << "UsedMemory(MB)";
+            break;
         }
     }
     cout << "\n";
 
     // Display process information
-    for (const auto& process : processes) {
+    for (auto& process : processes) {
         cout << setw(6) << process.pid << setw(40) << process.name;
         
         displayCPUUsage(process);
@@ -42,18 +46,25 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_proce
                 case 'r':
                     displayNetUsage(process);
                     break;
+                case 'm':
+                    displayRAMUsage(process);
+                    break;
             }
         }
         cout << "\n";
     }
 }
 
-void displayCPUUsage(struct ProcessInfo process){
+void displayCPUUsage(struct ProcessInfo& process){
     std::cout << setw(8) << process.status << setw(15) << process.cpu_usage;
 }
 
-void displayNetUsage(struct ProcessInfo process){
+void displayNetUsage(struct ProcessInfo& process){
     std::cout << setw(12) <<process.in_traffic << setw(12) << process.out_traffic;
+}
+
+void displayRAMUsage(struct ProcessInfo& process){
+    std::cout << setw(16) <<process.used_memory;
 }
 
 char getKey(int timeoutMs)

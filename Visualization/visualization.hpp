@@ -18,14 +18,21 @@ void DisplayProcessInfo(std::vector<ProcessInfo>& processes, unsigned number_of_
  * 
  * @param process The process whose information will be displayed
  */
-void displayCPUUsage(struct ProcessInfo process);
+void displayCPUUsage(struct ProcessInfo& process);
 
 /**
- * @brief Displays net usage
+ * @brief Displays network usage
  * 
  * @param process The process whose information will be displayed
  */
-void displayNetUsage(struct ProcessInfo process);
+void displayNetUsage(struct ProcessInfo& process);
+
+/**
+ * @brief Displays RAM usage of a process
+ * 
+ * @param process The process whose information will be displayed
+ */
+void displayRAMUsage(struct ProcessInfo& process);
 
 /** Function to get key without waiting
  * @param timeoutMs timeout in milliseconds
