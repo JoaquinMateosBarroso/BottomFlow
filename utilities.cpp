@@ -16,7 +16,7 @@ void printHelp(){
         "\n"
         "-g, --saveToCSV: guarda la información en un fichero CSV\n"
         "-n, --number: modifica el número de procesos mostrados\n"
-        "-r, --net: muestra el tráfico de red por proceso\n"
+        "-N, --net: muestra el tráfico de red por proceso\n"
         "-m, --memory: muestra la memoria consumida por el proeceso\n";
 }
 
@@ -45,7 +45,7 @@ Arguments parseArgs(int argc, char* argv[]){
             case 'n':
                 args.n_process = atoi(optarg);
                 break;
-            case 'r':
+            case 'N':
                 args.argument_vector.push_back(opt);
                 break;
             case 'm':

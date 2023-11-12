@@ -1,5 +1,7 @@
 #include <iostream>
 #include <unistd.h>
+#include <iomanip>
+
 
 #include "utilities.hpp"
 #include "infoAcquisition.hpp"
@@ -16,6 +18,7 @@ int main(int argc, char* argv[]) {
     if (args.csvName != "")
         SaveToCSVHeader(args.csvName, args.argument_vector);
 
+    cout << setprecision(5) << fixed;
     
     while (in != 'e')
     {
@@ -23,15 +26,12 @@ int main(int argc, char* argv[]) {
 
         vector<ProcessInfo> processes = ReadProcFileSystem(args.argument_vector);
         sortProcesses(processes, sort_counter, args.argument_vector);
-        DisplayProcessInfo(processes, args.n_process, args.argument_vector);
+        DisplayProcessInfo(processes, args.n_process, args.argument_vector, sort_counter);
 
         //std::cout << "\n\n\n" << (sort_counter-1) << "\n\n\n";
 
         if (args.csvName != "")
             SaveToCSV(processes, args.csvName, args.timeout, args.argument_vector);
-
-        if (in == 's')
-            sort_counter = (sort_counter + 1) % (args.argument_vector.size()+1);
 
         if (args.displayBar)
             DisplayBar(args.timeout);
@@ -40,6 +40,9 @@ int main(int argc, char* argv[]) {
 
 
         in = getKey(1);
+
+        if (in == 's')
+            sort_counter = (sort_counter + 1) % (args.argument_vector.size()+1);
     }
     return 0;
 }

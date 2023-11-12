@@ -7,7 +7,7 @@
 #include "infoAcquisition.hpp"
 
 /*TO BE EXPANDED*/
-const char* const short_opts = "ht:bg:n:rm";
+const char* const short_opts = "ht:bg:n:Nm";
 
 const option long_opts[] = {
     {"help", no_argument, nullptr, 'h'},
@@ -16,7 +16,7 @@ const option long_opts[] = {
 
     {"saveToCSV", required_argument, nullptr, 'g'},
     {"number", required_argument, nullptr, 'n'},
-    {"net", no_argument, nullptr, 'r'},
+    {"net", no_argument, nullptr, 'N'},
     {"memory", no_argument, nullptr, 'm'}
 };
 

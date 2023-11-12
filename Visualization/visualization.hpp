@@ -11,7 +11,7 @@
  * @param arguments How the processes are going to be displayed
  */
 void DisplayProcessInfo(std::vector<ProcessInfo>& processes, unsigned number_of_processes,
-    std::vector<int> arguments);
+    std::vector<int> arguments, int sort_counter);
 
 /**
  * @brief Displays CPU usage
@@ -45,5 +45,18 @@ char getKey(int timeoutMs);
  * @returns 0 if no key is pressed
 */
 int DisplayBar(int msToCharge = 4000);
+
+/**
+ * @brief Draws an horizontal bar for separation
+ * 
+ */
+void drawHorizontalBar();
+
+/**
+ * @brief Shows the pre-header
+ * 
+ */
+void showPreHeader(const std::vector<ProcessInfo>& processes);
+
 
 #endif

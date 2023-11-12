@@ -12,38 +12,53 @@
 
 using namespace std;
 
+// ANSI escape codes for text color
+#define RESET   "\033[0m"
+#define RED     "\033[31m"
+#define GREEN   "\033[32m"
+#define BLUE    "\033[1;34m"
+
+
 void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_processes,
-    std::vector<int> arguments) {
-    
+    std::vector<int> arguments, int sort_counter) {
+
+    showPreHeader(processes);
+
     // Resize the vector if needed
     if (number_of_processes < processes.size()) {
         processes.resize(number_of_processes);
     }
 
+
+    drawHorizontalBar();
+
     // Display header
-    cout << left << setw(6) << "PID" << setw(40) << "Name" << setw(8) << "Status" << setw(15) << "CPU Usage (%)";
+    cout << left << setw(8) << "PID" << setw(20) << "Name" << setw(8) << "Status" << RESET;
+    cout << (sort_counter==0? GREEN: "") << setw(15) << "CPU Usage (%)" << RESET;
     for(uint i=0; i<arguments.size(); i++){
         switch(arguments[i]){
-            case 'r':
-                cout << setw(12) << "InTraffic" << setw(12) << "OutTraffic";
+            case 'N':
+                cout << (sort_counter==1? GREEN: "") << setw(12) << "InTraffic" << RESET;
+                cout << (sort_counter==1? GREEN: "") << setw(12) << "OutTraffic" << RESET;
             break;
             case 'm':
-                cout << setw(16) << "UsedMemory(MB)";
+                cout << (sort_counter==2? GREEN: "") << setw(16) << "UsedMemory(MB)" << RESET;
             break;
         }
     }
-    cout << "\n";
+
+    drawHorizontalBar();
 
     // Display process information
     for (auto& process : processes) {
-        cout << setw(6) << process.pid << setw(40) << process.name;
+        cout << setw(8) << process.pid << setw(20) << process.name;
         
         displayCPUUsage(process);
 
         
         for(uint i=0; i<arguments.size(); i++){
             switch(arguments[i]){
-                case 'r':
+                case 'N':
                     displayNetUsage(process);
                     break;
                 case 'm':
@@ -56,7 +71,7 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_proce
 }
 
 void displayCPUUsage(struct ProcessInfo& process){
-    std::cout << setw(8) << process.status << setw(15) << process.cpu_usage;
+    std::cout << setw(8) << process.status << setw(15) << process.cpu_usage*100;
 }
 
 void displayNetUsage(struct ProcessInfo& process){
@@ -132,4 +147,31 @@ int DisplayBar(int msToCharge)
     }
 
     return 0;
+}
+
+int countProcesses(const vector<ProcessInfo>& processes, const string& status)
+{
+    int counter = 0;
+    for (auto& process : processes) {
+        if (process.status == status)
+            counter++;
+    }
+    return counter;
+}
+
+void showPreHeader(const vector<ProcessInfo>& processes)
+{
+    cout << BLUE;
+    cout << "Processes:  Total number->" << processes.size() << 
+            ", Running->" << countProcesses(processes, "R") <<
+            ", Sleeping->" << countProcesses(processes, "S") <<
+            ", Stopped->" << countProcesses(processes, "T") <<
+            ", Zombie->" << countProcesses(processes, "Z") << 
+            "\n";
+    cout << RESET;
+}
+
+void drawHorizontalBar()
+{
+    cout << "\n--------------------------------------------------------------------------------\n";
 }
