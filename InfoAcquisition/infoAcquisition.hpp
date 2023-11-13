@@ -4,6 +4,10 @@
 #include <string>
 #include <vector>
 
+#include "utilities.hpp"
+
+struct Arguments;
+
 struct ProcessInfo {
     int pid;
     std::string name;
@@ -25,7 +29,7 @@ struct NetTraffic{
  * @param arguments The vector to retrieve only the requested arguments
  * @return std::vector<ProcessInfo> 
  */
-std::vector<ProcessInfo> ReadProcFileSystem(std::vector<int>& arguments);
+std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args);
 
 /**
  * @brief Get the current Process Cpu Usage of a process
@@ -59,7 +63,7 @@ struct NetTraffic GetProcessNetUsage(int pid);
  * @param pid The process identifier
  * @return long int The RAM usage
  */
-long int getProcessRAMUsage(int pid);
+long int getProcessRAMUsage(int pid, Arguments& args);
 
 
 #endif
