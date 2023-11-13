@@ -55,6 +55,7 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
                 status_file.close();
             }
             process.cpu_usage = GetProcessCpuUsage(process.pid);
+
             struct NetTraffic net_traffic;
             net_traffic = GetSystemNetUsage(process.pid);
             process.in_traffic = net_traffic.in;
@@ -64,6 +65,12 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
                 switch(args.argument_vector[i]){
                     case 'm':
                         process.used_memory = getProcessRAMUsage(process.pid, args);
+                    break;
+                    case 'u':
+                        process.name = getProcessUser(process.pid);
+                    break;
+                    case 'g':
+                        process.group = getProcessGroup(process.pid);
                     break;
                 }
             }

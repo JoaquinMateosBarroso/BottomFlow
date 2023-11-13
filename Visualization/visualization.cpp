@@ -80,6 +80,12 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
                 case 'm':
                     displayRAMUsage(process);
                     break;
+                case 'u':
+                    displayUser(process);
+                    break;
+                case 'g':
+                    displayGroup(process);
+                    break;
             }
         }
         cout << "\n";
@@ -96,6 +102,14 @@ void displayNetUsage(struct ProcessInfo& process){
 
 void displayRAMUsage(struct ProcessInfo& process){
     std::cout << setw(16) <<process.used_memory;
+}
+
+void displayUser(struct ProcessInfo& process){
+    std::cout << setw(16) << process.user;
+}
+
+void displayGroup(struct ProcessInfo& process){
+    std::cout << setw(16) << process.group;
 }
 
 char getKey(int timeoutMs)

@@ -17,6 +17,7 @@ struct ProcessInfo {
     double out_traffic;
     long int used_memory;
     std::string user;
+    std::string group;
 };
 
 struct NetTraffic{
