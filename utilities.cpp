@@ -127,16 +127,16 @@ void SaveToCSVHeader(const string &fileName, std::vector<int> arguments)
     for(uint i=0; i<arguments.size(); i++){
         switch(arguments[i]){
             case 'N':
-                file << "InputBytes, OutputBytes";
+                file << ",InputBytes, OutputBytes";
                 break;
             case 'm':
-                file << "UsedMemory(KB)";
+                file << ",UsedMemory(KB)";
                 break;
             case 'u':
-                file << "User";
+                file << ",User";
                 break;
             case 'g':
-                file << "Group";
+                file << ",Group";
                 break;
         }
     }
