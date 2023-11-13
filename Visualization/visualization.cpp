@@ -52,8 +52,13 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
                     cout << (sort_counter==i+1? GREEN: "") << setw(16) << "UsedMemory(KB)" << RESET;
             break;
             case 'u':
+                if(args.u_display)
+                    cout << (sort_counter==i+1? GREEN: "") << setw(16) << "User" << RESET;
             break;
             case 'g':
+                if(args.group_display)
+                    cout << (sort_counter==i+1? GREEN: "") << setw(16) << "Group" << RESET;
+
             break;
         }
     }

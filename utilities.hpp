@@ -32,6 +32,8 @@ struct Arguments {
     int n_process = 10;
     bool g_display = false;
     bool m_display = false;
+    bool group_display = false;
+    bool u_display = false;
 
     std::string csvName = "";
     std::vector<int> argument_vector;
