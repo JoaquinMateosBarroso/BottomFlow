@@ -34,19 +34,22 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
     // Display header
     cout << left << setw(8) << "PID" << setw(20) << "Name" << setw(8) << "Status" << RESET;
     cout << (sort_counter==0? GREEN: "") << setw(15) << "CPU Usage (%)" << RESET;
-    for(uint i=0; i<args.argument_vector.size(); i++){
+    
+    int size = args.argument_vector.size();
+
+    for(int i=0; i<size; i++){
         switch(args.argument_vector[i]){
             case 'N':
-                cout << (sort_counter==1? GREEN: "") << setw(12) << "InTraffic" << RESET;
-                cout << (sort_counter==1? GREEN: "") << setw(12) << "OutTraffic" << RESET;
+                cout << (sort_counter==i+1? GREEN: "") << setw(12) << "InTraffic" << RESET;
+                cout << (sort_counter==i+1? GREEN: "") << setw(12) << "OutTraffic" << RESET;
             break;
             case 'm':
                 if(args.g_display)
-                    cout << (sort_counter==2? GREEN: "") << setw(16) << "UsedMemory(GB)" << RESET;
+                    cout << (sort_counter==i+1? GREEN: "") << setw(16) << "UsedMemory(GB)" << RESET;
                 else if(args.m_display)
-                    cout << (sort_counter==2? GREEN: "") << setw(16) << "UsedMemory(MB)" << RESET;
+                    cout << (sort_counter==i+1? GREEN: "") << setw(16) << "UsedMemory(MB)" << RESET;
                 else
-                    cout << (sort_counter==2? GREEN: "") << setw(16) << "UsedMemory(KB)" << RESET;
+                    cout << (sort_counter==i+1? GREEN: "") << setw(16) << "UsedMemory(KB)" << RESET;
             break;
         }
     }

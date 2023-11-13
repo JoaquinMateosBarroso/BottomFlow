@@ -7,9 +7,10 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <iterator>
-
+#include <cstring>
 
 #include "infoAcquisition.hpp"
+
 
 std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
     std::vector<ProcessInfo> processes;
@@ -52,15 +53,13 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
                 status_file.close();
             }
             process.cpu_usage = GetProcessCpuUsage(process.pid);
+            struct NetTraffic net_traffic;
+            net_traffic = GetSystemNetUsage(process.pid);
+            process.in_traffic = net_traffic.in;
+            process.out_traffic = net_traffic.out;
 
             for(uint i=0; i<args.argument_vector.size(); i++){
                 switch(args.argument_vector[i]){
-                    case 'r':
-                        struct NetTraffic net_traffic;
-                        net_traffic = GetProcessNetUsage(process.pid);
-                        process.in_traffic = net_traffic.in;
-                        process.out_traffic = net_traffic.out;
-                    break;
                     case 'm':
                         process.used_memory = getProcessRAMUsage(process.pid, args);
                     break;
@@ -129,13 +128,14 @@ double GetTotalCpuTime() {
     return 1.0; // Return a small value to avoid division by zero.
 }
 
-struct NetTraffic GetProcessNetUsage(int pid){
-    std::string proc_dir = "/proc/" + std::to_string(pid);
-    std::ifstream net_file(proc_dir + "/net/dev");
+struct NetTraffic GetSystemNetUsage(int pid){
 
     struct NetTraffic net_traffic;
-    net_traffic.in = -1;
-    net_traffic.out = -1;
+    net_traffic.in = 0;
+    net_traffic.out = 0;
+
+    std::string proc_dir = "/proc/" + std::to_string(pid);
+    std::ifstream net_file(proc_dir + "/net/dev");
 
     if(net_file.is_open()){
         std::string line;
@@ -152,18 +152,21 @@ struct NetTraffic GetProcessNetUsage(int pid){
                 //':' deletion
                 interface.pop_back();
 
-                //Read stats
-                unsigned long long int rx_bytes, tx_bytes;
+                unsigned int rx_bytes, tx_bytes;
                 iss >> rx_bytes >> tx_bytes;
 
-                //Imprimir estadísticas de red para la interfaz
-                net_traffic.in = rx_bytes;
-                net_traffic.out = tx_bytes;
+                net_traffic.in += rx_bytes;
+                net_traffic.out += tx_bytes;
             }
         }
         net_file.close();
+
     }
+
+    net_traffic.in = net_traffic.in >> 10;
+    net_traffic.in = net_traffic.in >> 10;
     return net_traffic;
+
 }
 
 
