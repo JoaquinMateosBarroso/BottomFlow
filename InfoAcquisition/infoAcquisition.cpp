@@ -61,11 +61,6 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
             }
             process.cpu_usage = GetProcessCpuUsage(process.pid);
 
-            struct NetTraffic net_traffic;
-            net_traffic = GetSystemNetUsage(process.pid);
-            process.in_traffic = net_traffic.in;
-            process.out_traffic = net_traffic.out;
-
             for(uint i=0; i<args.argument_vector.size(); i++){
                 switch(args.argument_vector[i]){
                     case 'm':
