@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
         if (args.displayBar)
             DisplayBar(args.timeout);
         else
-            usleep(args.timeout*1000); // usleep sleeps microseconds, so we need to multiply by 1000 to get milliseconds
+            usleep(args.timeout*1000); // usleep sleeps microseconds, so we need to multiply by 1000 to get it from milliseconds
 
 
         in = getKey(1);

@@ -9,13 +9,12 @@
 struct ProcessInfo;
 
 /*TO BE EXPANDED*/
-const char* const short_opts = "ht:bg:n:NmGM";
+const char* const short_opts = "ht:bc:n:NmugGM";
 
 const option long_opts[] = {
     {"help", no_argument, nullptr, 'h'},
     {"timeout", required_argument, nullptr, 't'},
     {"displaybar", no_argument, nullptr, 'b'},
-
     {"saveToCSV", required_argument, nullptr, 'c'},
     {"number", required_argument, nullptr, 'n'},
     {"net", no_argument, nullptr, 'N'},
