@@ -33,10 +33,24 @@ void displayNetUsage(struct ProcessInfo& process);
  */
 void displayRAMUsage(struct ProcessInfo& process);
 
+/**
+ * @brief Displays the real user of the process
+ * 
+ * @param process The process from which retrieve the data
+ */
+void displayUser(struct ProcessInfo& process);
+
+/**
+ * @brief Displays the real group of the process
+ * 
+ * @param process The process from which retrieve the data
+ */
+void displayGroup(struct ProcessInfo& process);
+
 /** Function to get key without waiting
  * @param timeoutMs timeout in milliseconds
  * @returns 0 if no key is pressed
- **/
+ */
 char getKey(int timeoutMs);
 
 /**

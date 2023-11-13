@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <iterator>
+#include <pwd.h> // For getpwuid function
+#include <grp.h> // For getgrpid function
 #include <cstring>
 
 #include "infoAcquisition.hpp"
@@ -23,6 +25,11 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
         std::cerr << "Failed to open /proc directory." << std::endl;
         exit(1);
     }
+
+    /*********** Change this to the header **********/
+    struct NetTraffic net_traffic;
+    net_traffic = GetSystemNetUsage();
+    /*********************/
 
     struct dirent* entry;
     while ((entry = readdir(dp))) {
@@ -53,15 +60,17 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
                 status_file.close();
             }
             process.cpu_usage = GetProcessCpuUsage(process.pid);
-            struct NetTraffic net_traffic;
-            net_traffic = GetSystemNetUsage(process.pid);
-            process.in_traffic = net_traffic.in;
-            process.out_traffic = net_traffic.out;
 
             for(uint i=0; i<args.argument_vector.size(); i++){
                 switch(args.argument_vector[i]){
                     case 'm':
                         process.used_memory = getProcessRAMUsage(process.pid, args);
+                    break;
+                    case 'u':
+                        process.name = getProcessUser(process.pid);
+                    break;
+                    case 'g':
+                        process.group = getProcessGroup(process.pid);
                     break;
                 }
             }
@@ -128,13 +137,13 @@ double GetTotalCpuTime() {
     return 1.0; // Return a small value to avoid division by zero.
 }
 
-struct NetTraffic GetSystemNetUsage(int pid){
+struct NetTraffic GetSystemNetUsage(){
 
     struct NetTraffic net_traffic;
     net_traffic.in = 0;
     net_traffic.out = 0;
 
-    std::string proc_dir = "/proc/" + std::to_string(pid);
+    std::string proc_dir = "/proc";
     std::ifstream net_file(proc_dir + "/net/dev");
 
     if(net_file.is_open()){
@@ -203,5 +212,84 @@ long int getProcessRAMUsage(int pid, Arguments& args) {
     return rss;
 }
 
+std::string getProcessUser(int pid) {
+    uid_t Uid;
+    std::string user;
 
+    // Open the status file of the process
+    std::string statusFilePath = "/proc/" + std::to_string(pid) + "/status";
+    std::ifstream statusFile(statusFilePath);
+
+    if(!statusFile.is_open()) {
+        std::cerr << "Error: Unable to open " << statusFilePath << std::endl;
+        return "error";
+    }
+
+    std::string line;
+
+    // Obtain the UID
+    while (std::getline(statusFile, line)) {
+        std::istringstream token(line);
+        std::string key, value;
+        token >> key;
+
+        if(key == "Uid") {
+            token >> Uid;   
+            break;        
+        }
+    }
+
+    statusFile.close();
+
+    // Obtain the user of the process
+    struct passwd *pwd = getpwuid(Uid);
+
+    if(pwd != nullptr)
+        user = pwd->pw_name;
+    else
+        user = "Unkown";
+
+    return user;
+}
+
+std::string getProcessGroup(int pid) {
+    uid_t Gid;
+    std::string group;
+
+    // Open the status file of the process
+    std::string statusFilePath = "/proc/" + std::to_string(pid) + "/status";
+    std::ifstream statusFile(statusFilePath);
+
+    if(!statusFile.is_open()) {
+        std::cerr << "Error: Unable to open " << statusFilePath << std::endl;
+        return "error";
+    }
+
+    std::string line;
+
+    // Obtain the UID
+    while (std::getline(statusFile, line)) {
+        std::istringstream token(line);
+        std::string key, value;
+        token >> key;
+
+        if(key == "Gid") {
+            token >> Gid;   
+            break;        
+        }
+    }
+
+    statusFile.close();
+
+    // Obtain the user of the process
+    struct group *grp = getgrgid(Gid);
+
+    if(grp != nullptr)
+        group = grp->gr_name;
+    else
+        group = "Unkown";
+
+    return group;
+
+}
 
