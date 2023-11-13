@@ -55,7 +55,7 @@ double GetTotalCpuTime();
  * 
  * @post (in < 0 && out < 0): error en la apertura del fichero
  */
-struct NetTraffic GetSystemNetUsage(int pid);
+struct NetTraffic GetSystemNetUsage();
 
 /**
  * @brief Gets RAM Usage of a process

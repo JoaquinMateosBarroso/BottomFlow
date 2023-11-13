@@ -24,6 +24,11 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
         exit(1);
     }
 
+    /*********** Change this to the header **********/
+    struct NetTraffic net_traffic;
+    net_traffic = GetSystemNetUsage();
+    /*********************/
+
     struct dirent* entry;
     while ((entry = readdir(dp))) {
         // Check if the entry is a directory and represents a process (numeric name).
@@ -53,10 +58,6 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
                 status_file.close();
             }
             process.cpu_usage = GetProcessCpuUsage(process.pid);
-            struct NetTraffic net_traffic;
-            net_traffic = GetSystemNetUsage(process.pid);
-            process.in_traffic = net_traffic.in;
-            process.out_traffic = net_traffic.out;
 
             for(uint i=0; i<args.argument_vector.size(); i++){
                 switch(args.argument_vector[i]){
@@ -128,13 +129,13 @@ double GetTotalCpuTime() {
     return 1.0; // Return a small value to avoid division by zero.
 }
 
-struct NetTraffic GetSystemNetUsage(int pid){
+struct NetTraffic GetSystemNetUsage(){
 
     struct NetTraffic net_traffic;
     net_traffic.in = 0;
     net_traffic.out = 0;
 
-    std::string proc_dir = "/proc/" + std::to_string(pid);
+    std::string proc_dir = "/proc";
     std::ifstream net_file(proc_dir + "/net/dev");
 
     if(net_file.is_open()){
