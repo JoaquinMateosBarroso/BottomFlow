@@ -17,7 +17,9 @@ const option long_opts[] = {
     {"saveToCSV", required_argument, nullptr, 'g'},
     {"number", required_argument, nullptr, 'n'},
     {"net", no_argument, nullptr, 'N'},
-    {"memory", no_argument, nullptr, 'm'}
+    {"memory", no_argument, nullptr, 'm'},
+    {"user", no_argument, nullptr, 'U'},
+    {"group", no_argument, nullptr, 'G'}
 };
 
 struct Arguments {

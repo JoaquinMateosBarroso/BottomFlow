@@ -51,6 +51,10 @@ Arguments parseArgs(int argc, char* argv[]){
             case 'm':
                 args.argument_vector.push_back(opt);
                 break;
+            case 'U':
+                args.argument_vector.push_back(opt);
+            case 'G':
+                args.argument_vector.push_back(opt);
             
             /*TO BE EXPANDED*/
         }
