@@ -233,8 +233,6 @@ std::string getProcessUser(int pid) {
 
         if(key == "Uid:") {
             token >> Uid;   
-            std::cout << "UID from status file: " << Uid << std::endl;
-
             break;        
         }
     }
@@ -266,8 +264,6 @@ std::string getProcessUser(int pid) {
 
         if(uid == Uid)
         {
-            std::cout << "UID after converting it to string: " << uid << "\tUSER: " << auxUser << std::endl;
-
             user = auxUser;
             break;   
         }
