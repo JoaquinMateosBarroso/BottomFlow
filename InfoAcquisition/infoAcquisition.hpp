@@ -20,8 +20,8 @@ struct ProcessInfo {
 };
 
 struct NetTraffic{
-    double in;
-    double out;
+    uint in;
+    uint out;
 };
 
 /**
@@ -49,14 +49,14 @@ double GetTotalCpuTime();
 
 
 /**
- * @brief Get the Process Net Usage object
+ * @brief Get the system's Net Usage object
  * 
  * @param pid The process identifier
  * @return struct NetTraffic The in and out traffic of the process
  * 
  * @post (in < 0 && out < 0): error opening the file
  */
-struct NetTraffic GetProcessNetUsage(int pid);
+struct NetTraffic GetSystemNetUsage(int pid);
 
 /**
  * @brief Gets RAM Usage of a process
