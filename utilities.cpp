@@ -19,7 +19,7 @@ void printHelp(){
         "-N, --net: muestra el tráfico de red por proceso\n"
 
         "-u, --user: muestra el usuario real del proceso\n"
-        "-g, --group: muestra el grupo real del proceso"
+        "-g, --group: muestra el grupo real del proceso\n"
 
         "-m, --memory: muestra la memoria consumida por el proceso\n"
         "-G, --giga: muestra toda la información relacionada con memoria en gigabytes\n"
@@ -60,8 +60,12 @@ Arguments parseArgs(int argc, char* argv[]){
                 break;
             case 'u':
                 args.argument_vector.push_back(opt);
+                args.u_display = true;
+                break;
             case 'g':
                 args.argument_vector.push_back(opt);
+                args.group_display = true;
+                break;
             case 'G':
                 args.g_display = true;
                 break;

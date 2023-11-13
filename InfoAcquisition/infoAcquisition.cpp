@@ -7,8 +7,6 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <iterator>
-#include <pwd.h> // For getpwuid function
-#include <grp.h> // For getgrpid function
 #include <cstring>
 
 #include "infoAcquisition.hpp"
@@ -213,7 +211,7 @@ long int getProcessRAMUsage(int pid, Arguments& args) {
 }
 
 std::string getProcessUser(int pid) {
-    uid_t Uid;
+    int Uid;
     std::string user;
 
     // Open the status file of the process
@@ -233,27 +231,55 @@ std::string getProcessUser(int pid) {
         std::string key, value;
         token >> key;
 
-        if(key == "Uid") {
+        if(key == "Uid:") {
             token >> Uid;   
+            std::cout << "UID from status file: " << Uid << std::endl;
+
             break;        
         }
     }
 
     statusFile.close();
 
-    // Obtain the user of the process
-    struct passwd *pwd = getpwuid(Uid);
+    // Open /etc/passwd file to search the user and get its name
+    std::ifstream passwdFile("/etc/passwd");
+    if(!passwdFile.is_open()) {
+        std::cerr << "Error: Unable to open /etc/passwd" << std::endl;
+        return "error";
+    }
 
-    if(pwd != nullptr)
-        user = pwd->pw_name;
-    else
-        user = "Unkown";
+    while (std::getline(passwdFile, line)) {
+        std::istringstream token(line);
+        std::string auxUser;
+
+        // Split the line by ':' and get the username, passwd and UID
+        std::getline(token, auxUser, ':');  // Name
+       
+        std::string auxPasswd;
+        std::getline(token, auxPasswd, ':');  // Password
+
+        std::string auxId;
+        std::getline(token, auxId, ':');  // UID
+
+        // Convert UID string to integer
+        int uid = std::stoi(auxId);
+
+        if(uid == Uid)
+        {
+            std::cout << "UID after converting it to string: " << uid << "\tUSER: " << auxUser << std::endl;
+
+            user = auxUser;
+            break;   
+        }
+    }
+
+    passwdFile.close();
 
     return user;
 }
 
 std::string getProcessGroup(int pid) {
-    uid_t Gid;
+    int Gid;
     std::string group;
 
     // Open the status file of the process
@@ -273,7 +299,7 @@ std::string getProcessGroup(int pid) {
         std::string key, value;
         token >> key;
 
-        if(key == "Gid") {
+        if(key == "Gid:") {
             token >> Gid;   
             break;        
         }
@@ -281,13 +307,37 @@ std::string getProcessGroup(int pid) {
 
     statusFile.close();
 
-    // Obtain the user of the process
-    struct group *grp = getgrgid(Gid);
+    // Open /etc/group file to search the group and get its name
+    std::ifstream groupFile("/etc/group");
+    if(!groupFile.is_open()) {
+        std::cerr << "Error: Unable to open /etc/group" << std::endl;
+        return "error";
+    }
 
-    if(grp != nullptr)
-        group = grp->gr_name;
-    else
-        group = "Unkown";
+    while (std::getline(groupFile, line)) {
+        std::istringstream token(line);
+        std::string auxGroup;
+
+        // Split the line by ':' and get the username, passwd and UID
+        std::getline(token, auxGroup, ':');  // Name
+       
+        std::string auxPasswd;
+        std::getline(token, auxPasswd, ':');  // Password
+
+        std::string auxGid;
+        std::getline(token, auxGid, ':');  // UID
+
+        // Convert GID string to integer
+        int gid = std::stoi(auxGid);
+
+        if(gid == Gid)
+        {
+            group = auxGroup;
+            break;   
+        }
+    }
+
+    groupFile.close();
 
     return group;
 
