@@ -14,10 +14,17 @@ void printHelp(){
         "-t, --timeout: tiempo de refresco en milisegundos\n"
         "-b, --displayBar: muestra la barra de progreso\n"
         "\n"
-        "-g, --saveToCSV: guarda la información en un fichero CSV\n"
+        "-c, --saveToCSV: guarda la información en un fichero CSV\n"
         "-n, --number: modifica el número de procesos mostrados\n"
         "-N, --net: muestra el tráfico de red por proceso\n"
-        "-m, --memory: muestra la memoria consumida por el proceso\n";
+
+        "-u, --user: muestra el usuario real del proceso\n"
+        "-g, --group: muestra el grupo real del proceso"
+
+        "-m, --memory: muestra la memoria consumida por el proceso\n"
+        "-G, --giga: muestra toda la información relacionada con memoria en gigabytes\n"
+        "-M, --mega: muestra toda la información relacionada con memoria en megabytes\n";
+
 }
 
 
@@ -39,7 +46,7 @@ Arguments parseArgs(int argc, char* argv[]){
             case 'b':
                 args.displayBar = true;
                 break;
-            case 'g':
+            case 'c':
                 args.csvName = optarg;
                 break;
             case 'n':
@@ -51,14 +58,24 @@ Arguments parseArgs(int argc, char* argv[]){
             case 'm':
                 args.argument_vector.push_back(opt);
                 break;
-            case 'U':
+            case 'u':
+                args.argument_vector.push_back(opt);
+            case 'g':
                 args.argument_vector.push_back(opt);
             case 'G':
-                args.argument_vector.push_back(opt);
-            
+                args.g_display = true;
+                break;
+            case 'M':
+                args.m_display = true;
+                break;
             /*TO BE EXPANDED*/
         }
     }
+
+    if(args.g_display && args.m_display){
+        args.g_display = false;
+    }
+
     return args;
 }
 

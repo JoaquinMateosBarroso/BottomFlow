@@ -13,7 +13,7 @@
 
 #include "infoAcquisition.hpp"
 
-std::vector<ProcessInfo> ReadProcFileSystem(std::vector<int>& arguments) {
+std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
     std::vector<ProcessInfo> processes;
 
     // Open the "/proc" directory.
@@ -55,8 +55,8 @@ std::vector<ProcessInfo> ReadProcFileSystem(std::vector<int>& arguments) {
             }
             process.cpu_usage = GetProcessCpuUsage(process.pid);
 
-            for(uint i=0; i<arguments.size(); i++){
-                switch(arguments[i]){
+            for(uint i=0; i<args.argument_vector.size(); i++){
+                switch(args.argument_vector[i]){
                     case 'r':
                         struct NetTraffic net_traffic;
                         net_traffic = GetProcessNetUsage(process.pid);
@@ -64,7 +64,7 @@ std::vector<ProcessInfo> ReadProcFileSystem(std::vector<int>& arguments) {
                         process.out_traffic = net_traffic.out;
                     break;
                     case 'm':
-                        process.used_memory = getProcessRAMUsage(process.pid);
+                        process.used_memory = getProcessRAMUsage(process.pid, args);
                     break;
                 }
             }
@@ -169,7 +169,7 @@ struct NetTraffic GetProcessNetUsage(int pid){
 }
 
 
-long int getProcessRAMUsage(int pid) {
+long int getProcessRAMUsage(int pid, Arguments& args) {
     long int rss = -1;  
 
     std::string statusFilePath = "/proc/" + std::to_string(pid) + "/status";
@@ -194,7 +194,10 @@ long int getProcessRAMUsage(int pid) {
 
     statusFile.close();
     
-    rss = rss >> 10;            //MB display
+    if(args.g_display)
+        rss = rss >> 20;
+    else if(args.m_display)
+        rss = rss >> 10;
 
     return rss;
 }

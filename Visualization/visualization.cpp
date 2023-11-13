@@ -19,14 +19,13 @@ using namespace std;
 #define BLUE    "\033[1;34m"
 
 
-void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_processes,
-    std::vector<int> arguments, int sort_counter) {
+void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sort_counter) {
 
     showPreHeader(processes);
 
     // Resize the vector if needed
-    if (number_of_processes < processes.size()) {
-        processes.resize(number_of_processes);
+    if ((uint)args.n_process < processes.size()) {
+        processes.resize(args.n_process);
     }
 
 
@@ -35,14 +34,19 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_proce
     // Display header
     cout << left << setw(8) << "PID" << setw(20) << "Name" << setw(8) << "Status" << RESET;
     cout << (sort_counter==0? GREEN: "") << setw(15) << "CPU Usage (%)" << RESET;
-    for(uint i=0; i<arguments.size(); i++){
-        switch(arguments[i]){
+    for(uint i=0; i<args.argument_vector.size(); i++){
+        switch(args.argument_vector[i]){
             case 'N':
                 cout << (sort_counter==1? GREEN: "") << setw(12) << "InTraffic" << RESET;
                 cout << (sort_counter==1? GREEN: "") << setw(12) << "OutTraffic" << RESET;
             break;
             case 'm':
-                cout << (sort_counter==2? GREEN: "") << setw(16) << "UsedMemory(MB)" << RESET;
+                if(args.g_display)
+                    cout << (sort_counter==2? GREEN: "") << setw(16) << "UsedMemory(GB)" << RESET;
+                else if(args.m_display)
+                    cout << (sort_counter==2? GREEN: "") << setw(16) << "UsedMemory(MB)" << RESET;
+                else
+                    cout << (sort_counter==2? GREEN: "") << setw(16) << "UsedMemory(KB)" << RESET;
             break;
         }
     }
@@ -56,8 +60,8 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, unsigned number_of_proce
         displayCPUUsage(process);
 
         
-        for(uint i=0; i<arguments.size(); i++){
-            switch(arguments[i]){
+        for(uint i=0; i<args.argument_vector.size(); i++){
+            switch(args.argument_vector[i]){
                 case 'N':
                     displayNetUsage(process);
                     break;
@@ -128,11 +132,11 @@ int DisplayBar(int msToCharge)
     using namespace indicators;
 
     BlockProgressBar bar{
-        option::BarWidth{80},
-        option::Start{"["},
-        option::End{"]"},
-        option::ForegroundColor{Color::green}  ,
-        option::FontStyles{vector<FontStyle>{FontStyle::bold}}
+        indicators::option::BarWidth{80},
+        indicators::option::Start{"["},
+        indicators::option::End{"]"},
+        indicators::option::ForegroundColor{Color::green}  ,
+        indicators::option::FontStyles{vector<FontStyle>{FontStyle::bold}}
     };
 
     // Update bar state

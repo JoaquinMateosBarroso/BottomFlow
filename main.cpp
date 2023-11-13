@@ -24,11 +24,9 @@ int main(int argc, char* argv[]) {
     {
         system("clear");
 
-        vector<ProcessInfo> processes = ReadProcFileSystem(args.argument_vector);
+        vector<ProcessInfo> processes = ReadProcFileSystem(args);
         sortProcesses(processes, sort_counter, args.argument_vector);
-        DisplayProcessInfo(processes, args.n_process, args.argument_vector, sort_counter);
-
-        //std::cout << "\n\n\n" << (sort_counter-1) << "\n\n\n";
+        DisplayProcessInfo(processes, args, sort_counter);
 
         if (args.csvName != "")
             SaveToCSV(processes, args.csvName, args.timeout, args.argument_vector);

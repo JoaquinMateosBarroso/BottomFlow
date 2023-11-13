@@ -10,8 +10,7 @@
  * @param number_of_processes The number of processes displayed
  * @param arguments How the processes are going to be displayed
  */
-void DisplayProcessInfo(std::vector<ProcessInfo>& processes, unsigned number_of_processes,
-    std::vector<int> arguments, int sort_counter);
+void DisplayProcessInfo(std::vector<ProcessInfo>& processes, Arguments& args, int sort_counter);
 
 /**
  * @brief Displays CPU usage
