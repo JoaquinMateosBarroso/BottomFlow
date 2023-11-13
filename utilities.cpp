@@ -17,13 +17,11 @@ void printHelp(){
         "-g, --saveToCSV: guarda la información en un fichero CSV\n"
         "-n, --number: modifica el número de procesos mostrados\n"
         "-N, --net: muestra el tráfico de red por proceso\n"
-<<<<<<< HEAD
+
         "-m, --memory: muestra la memoria consumida por el proceso\n"
         "-G, --giga: muestra toda la información relacionada con memoria en gigabytes\n"
         "-M, --mega: muestra toda la información relacionada con memoria en megabytes\n";
-=======
-        "-m, --memory: muestra la memoria consumida por el proceso\n";
->>>>>>> refs/remotes/origin/main
+
 }
 
 
