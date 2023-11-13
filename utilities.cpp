@@ -12,14 +12,14 @@ void printHelp(){
     std::cout << "El programa acepta los siguientes argumentos:\n"
         "-h, --help: imprime esta ayuda\n"
         "-t, --timeout: tiempo de refresco en milisegundos\n"
-        "-b, --displayBar: muestra la barra de progreso\n"
-        "\n"
+        "-b, --displayBar: muestra la barra de progreso\n\n"
+
         "-c, --saveToCSV: guarda la información en un fichero CSV\n"
         "-n, --number: modifica el número de procesos mostrados\n"
-        "-N, --net: muestra el tráfico de red por proceso\n"
+        "-N, --net: muestra el tráfico de red por proceso\n\n"
 
         "-u, --user: muestra el usuario real del proceso\n"
-        "-g, --group: muestra el grupo real del proceso"
+        "-g, --group: muestra el grupo real del proceso\n\n"
 
         "-m, --memory: muestra la memoria consumida por el proceso\n"
         "-G, --giga: muestra toda la información relacionada con memoria en gigabytes\n"
@@ -34,7 +34,6 @@ Arguments parseArgs(int argc, char* argv[]){
 
     while(opt != -1){
         opt = getopt_long(argc, argv, short_opts, long_opts, nullptr);
-
 
         switch(opt){
             case 'h':
@@ -131,7 +130,7 @@ void SaveToCSVHeader(const string &fileName, std::vector<int> arguments)
                 file << "InputBytes, OutputBytes";
                 break;
             case 'm':
-                file << "Memory Usage";
+                file << "UsedMemory(KB)";
                 break;
             case 'u':
                 file << "User";
