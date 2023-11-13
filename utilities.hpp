@@ -20,8 +20,8 @@ const option long_opts[] = {
     {"number", required_argument, nullptr, 'n'},
     {"net", no_argument, nullptr, 'N'},
     {"memory", no_argument, nullptr, 'm'},
-    {"user", no_argument, nullptr, 'U'},
-    {"group", no_argument, nullptr, 'G'},
+    {"user", no_argument, nullptr, 'u'},
+    {"group", no_argument, nullptr, 'g'},
     {"giga", no_argument, nullptr, 'G'},
     {"mega", no_argument, nullptr, 'M'}
 };
