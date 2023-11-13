@@ -17,7 +17,7 @@ void printHelp(){
         "-g, --saveToCSV: guarda la información en un fichero CSV\n"
         "-n, --number: modifica el número de procesos mostrados\n"
         "-N, --net: muestra el tráfico de red por proceso\n"
-        "-m, --memory: muestra la memoria consumida por el proeceso\n";
+        "-m, --memory: muestra la memoria consumida por el proceso\n";
 }
 
 
