@@ -79,7 +79,7 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
         
         for(uint i=0; i<arguments.size(); i++){
             switch(arguments[i]){
-            case 'r':
+            case 'N':
                 file << ',' << info.in_traffic << ',' << info.out_traffic;
                 break;
             }
