@@ -65,7 +65,7 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
                         process.used_memory = getProcessRAMUsage(process.pid, args);
                     break;
                     case 'u':
-                        process.name = getProcessUser(process.pid);
+                        process.user = getProcessUser(process.pid);
                     break;
                     case 'g':
                         process.group = getProcessGroup(process.pid);
