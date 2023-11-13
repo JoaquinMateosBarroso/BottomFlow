@@ -6,8 +6,10 @@
 
 #include "infoAcquisition.hpp"
 
+struct ProcessInfo;
+
 /*TO BE EXPANDED*/
-const char* const short_opts = "ht:bg:n:Nm";
+const char* const short_opts = "ht:bg:n:NmGM";
 
 const option long_opts[] = {
     {"help", no_argument, nullptr, 'h'},
@@ -17,13 +19,17 @@ const option long_opts[] = {
     {"saveToCSV", required_argument, nullptr, 'g'},
     {"number", required_argument, nullptr, 'n'},
     {"net", no_argument, nullptr, 'N'},
-    {"memory", no_argument, nullptr, 'm'}
+    {"memory", no_argument, nullptr, 'm'},
+    {"giga", no_argument, nullptr, 'G'},
+    {"mega", no_argument, nullptr, 'M'}
 };
 
 struct Arguments {
     int timeout = 2000;
     bool displayBar = false;
     int n_process = 10;
+    bool g_display = false;
+    bool m_display = false;
 
     std::string csvName = "";
     std::vector<int> argument_vector;
