@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
             usleep(args.timeout*1000); // usleep sleeps microseconds, so we need to multiply by 1000 to get it from milliseconds
 
 
-        in = getKey(args.timeout);
+        in = getKey(1);
 
         if (in == 's')
             sort_counter = (sort_counter + 1) % (args.argument_vector.size()+1);

@@ -90,7 +90,6 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
 
     // Write data to the CSV file
     for (const auto& info : data) {
-
         // Format timestamp
         std::tm* timeinfo = std::localtime(&currentTime);
         std::ostringstream oss;
@@ -102,6 +101,15 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
             switch(arguments[i]){
             case 'N':
                 file << ',' << info.in_traffic << ',' << info.out_traffic;
+                break;
+            case 'm':
+                file << ',' << info.used_memory;
+                break;
+            case 'u':
+                file << ',' << info.user;
+                break;
+            case 'g':
+                file << ',' << info.group;
                 break;
             }
         }
@@ -119,11 +127,23 @@ void SaveToCSVHeader(const string &fileName, std::vector<int> arguments)
     file << "Time,PID,Name,Status,CPU Usage (%)";
     for(uint i=0; i<arguments.size(); i++){
         switch(arguments[i]){
-            case 'r':
-                file << "InputBytes,OutputBytes";
+            case 'N':
+                file << "InputBytes, OutputBytes";
+                break;
+            case 'm':
+                file << "Memory Usage";
+                break;
+            case 'u':
+                file << "User";
+                break;
+            case 'g':
+                file << "Group";
                 break;
         }
     }
+
+
+
     file << "\n";
     file.close();
 }
