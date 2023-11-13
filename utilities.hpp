@@ -16,10 +16,12 @@ const option long_opts[] = {
     {"timeout", required_argument, nullptr, 't'},
     {"displaybar", no_argument, nullptr, 'b'},
 
-    {"saveToCSV", required_argument, nullptr, 'g'},
+    {"saveToCSV", required_argument, nullptr, 'c'},
     {"number", required_argument, nullptr, 'n'},
     {"net", no_argument, nullptr, 'N'},
     {"memory", no_argument, nullptr, 'm'},
+    {"user", no_argument, nullptr, 'u'},
+    {"group", no_argument, nullptr, 'g'},
     {"giga", no_argument, nullptr, 'G'},
     {"mega", no_argument, nullptr, 'M'}
 };

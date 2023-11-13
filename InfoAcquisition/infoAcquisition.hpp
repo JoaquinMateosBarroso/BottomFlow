@@ -16,6 +16,7 @@ struct ProcessInfo {
     double in_traffic;
     double out_traffic;
     long int used_memory;
+    std::string user;
 };
 
 struct NetTraffic{
@@ -53,7 +54,7 @@ double GetTotalCpuTime();
  * @param pid The process identifier
  * @return struct NetTraffic The in and out traffic of the process
  * 
- * @post (in < 0 && out < 0): error en la apertura del fichero
+ * @post (in < 0 && out < 0): error opening the file
  */
 struct NetTraffic GetSystemNetUsage();
 
@@ -65,5 +66,20 @@ struct NetTraffic GetSystemNetUsage();
  */
 long int getProcessRAMUsage(int pid, Arguments& args);
 
+/**
+ * @brief Gets the process' real user
+ * 
+ * @param pid The pid of the process
+ * @return std::string The name of the real user, unkown if couldn't be found or error if couldn't open the file
+ */
+std::string getProcessUser(int pid);
+
+/**
+ * @brief Gets the process Group
+ * 
+ * @param pid The pid of the process
+ * @return std::string The name of the group, unkown if couldn't be found or error if couldn't open the file
+ */
+std::string getProcessGroup(int pid);
 
 #endif

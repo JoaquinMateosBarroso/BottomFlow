@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <iterator>
+#include <pwd.h> // For getpwuid function
+#include <grp.h> // For getgrpid function
 #include <cstring>
 
 #include "infoAcquisition.hpp"
@@ -204,5 +206,84 @@ long int getProcessRAMUsage(int pid, Arguments& args) {
     return rss;
 }
 
+std::string getProcessUser(int pid) {
+    uid_t Uid;
+    std::string user;
 
+    // Open the status file of the process
+    std::string statusFilePath = "/proc/" + std::to_string(pid) + "/status";
+    std::ifstream statusFile(statusFilePath);
+
+    if(!statusFile.is_open()) {
+        std::cerr << "Error: Unable to open " << statusFilePath << std::endl;
+        return "error";
+    }
+
+    std::string line;
+
+    // Obtain the UID
+    while (std::getline(statusFile, line)) {
+        std::istringstream token(line);
+        std::string key, value;
+        token >> key;
+
+        if(key == "Uid") {
+            token >> Uid;   
+            break;        
+        }
+    }
+
+    statusFile.close();
+
+    // Obtain the user of the process
+    struct passwd *pwd = getpwuid(Uid);
+
+    if(pwd != nullptr)
+        user = pwd->pw_name;
+    else
+        user = "Unkown";
+
+    return user;
+}
+
+std::string getProcessGroup(int pid) {
+    uid_t Gid;
+    std::string group;
+
+    // Open the status file of the process
+    std::string statusFilePath = "/proc/" + std::to_string(pid) + "/status";
+    std::ifstream statusFile(statusFilePath);
+
+    if(!statusFile.is_open()) {
+        std::cerr << "Error: Unable to open " << statusFilePath << std::endl;
+        return "error";
+    }
+
+    std::string line;
+
+    // Obtain the UID
+    while (std::getline(statusFile, line)) {
+        std::istringstream token(line);
+        std::string key, value;
+        token >> key;
+
+        if(key == "Gid") {
+            token >> Gid;   
+            break;        
+        }
+    }
+
+    statusFile.close();
+
+    // Obtain the user of the process
+    struct group *grp = getgrgid(Gid);
+
+    if(grp != nullptr)
+        group = grp->gr_name;
+    else
+        group = "Unkown";
+
+    return group;
+
+}
 
