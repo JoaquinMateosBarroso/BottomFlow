@@ -16,7 +16,6 @@ void printHelp(){
 
         "-c, --saveToCSV: guarda la información en un fichero CSV\n"
         "-n, --number: modifica el número de procesos mostrados\n"
-        "-N, --net: muestra el tráfico de red por proceso\n\n"
 
         "-u, --user: muestra el usuario real del proceso\n"
         "-g, --group: muestra el grupo real del proceso\n\n"

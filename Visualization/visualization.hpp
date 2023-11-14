@@ -3,6 +3,7 @@
 
 #include "infoAcquisition.hpp"
 
+
 /**
  * @brief Displays the process information
  * 
@@ -69,7 +70,7 @@ void drawHorizontalBar();
  * @brief Shows the pre-header
  * 
  */
-void showPreHeader(const std::vector<ProcessInfo>& processes);
+void showPreHeader(const std::vector<ProcessInfo>& processes, Arguments& args);
 
 
 #endif

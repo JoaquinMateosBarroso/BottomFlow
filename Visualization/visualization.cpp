@@ -21,7 +21,7 @@ using namespace std;
 
 void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sort_counter) {
 
-    showPreHeader(processes);
+    showPreHeader(processes, args);
 
     // Resize the vector if needed
     if ((uint)args.n_process < processes.size()) {
@@ -189,15 +189,31 @@ int countProcesses(const vector<ProcessInfo>& processes, const string& status)
     return counter;
 }
 
-void showPreHeader(const vector<ProcessInfo>& processes)
+void showPreHeader(const vector<ProcessInfo>& processes, Arguments& args)
 {
+    struct NetTraffic net_traffic;
+    net_traffic = GetSystemNetUsage(args);
+
     cout << BLUE;
-    cout << "Processes:  Total number->" << processes.size() << 
+    cout << "[PROCESS]:  Total number->" << processes.size() << 
             ", Running->" << countProcesses(processes, "R") <<
             ", Sleeping->" << countProcesses(processes, "S") <<
             ", Stopped->" << countProcesses(processes, "T") <<
             ", Zombie->" << countProcesses(processes, "Z") << 
             "\n";
+    cout << RESET;
+
+    std::string unit;
+    if(args.g_display)
+        unit = "(GB)";
+    else if(args.m_display)
+        unit = "(MB)";
+    else
+        unit = "(B)";
+    
+    cout << BLUE;
+    cout << "[NET]: Received" << unit <<": " << net_traffic.in <<
+    "    Sent" << unit << ": " << net_traffic.out;
     cout << RESET;
 }
 
