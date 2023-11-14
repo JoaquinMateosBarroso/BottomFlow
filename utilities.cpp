@@ -127,13 +127,14 @@ void SaveToCSVHeader(const string &fileName, std::vector<int> arguments)
 {
     std::ofstream file(fileName);
     file << "Time,PID,Name,Status,CPU Usage (%)";
+
     for(uint i=0; i<arguments.size(); i++){
         switch(arguments[i]){
             case 'N':
                 file << ",InputBytes, OutputBytes";
                 break;
             case 'm':
-                file << ",UsedMemory(KB)";
+                file << ",UsedMemory";
                 break;
             case 'u':
                 file << ",User";
@@ -157,12 +158,16 @@ void sortProcesses(std::vector<ProcessInfo> &processes, int &sort_counter,
         std::sort(processes.begin(), processes.end(), cpu_comparison);
     }else{
         switch(arguments[sort_counter-1]){
-            case 'r':
-                std::sort(processes.begin(), processes.end(), net_comparison);
-                break;
             case 'm':
                 std::sort(processes.begin(), processes.end(), ram_comparison);
                 break;
+            case 'u':
+                std::sort(processes.begin(), processes.end(), user_comparison);
+                break;
+            case 'g':
+                std::sort(processes.begin(), processes.end(), group_comparison);
+                break;
+
         }
     }
 }
@@ -175,8 +180,15 @@ bool cpu_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
     
 }
 
-bool net_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
-    if(process1.in_traffic > process2.in_traffic)
+bool user_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
+    if(process1.user > process2.user)
+        return true;
+    else
+        return false;
+}
+
+bool group_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
+    if(process1.group > process2.group)
         return true;
     else
         return false;

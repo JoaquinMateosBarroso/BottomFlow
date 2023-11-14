@@ -97,11 +97,25 @@ bool cpu_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
 
 
 /**
- * @brief Compares network usage of processes
+ * @brief Compares username of processes
  * 
- 
+ * @param process1 The first process
+ * @param process2 The second process
+ * @return true First process RAM usage is greater
+ * @return false First process RAM usage is lower
  */
-bool net_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
+bool user_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
+
+
+/**
+ * @brief Compares group name of processes
+ * 
+ * @param process1 The first process
+ * @param process2 The second process
+ * @return true First process RAM usage is greater
+ * @return false First process RAM usage is lower
+ */
+bool group_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
 
 /**
  * @brief Compares RAM usage of processes
