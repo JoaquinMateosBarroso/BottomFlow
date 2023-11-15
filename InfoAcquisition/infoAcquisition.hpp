@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <unistd.h>
 
 #include "utilities.hpp"
 
@@ -16,6 +17,8 @@ struct ProcessInfo {
     double in_traffic;
     double out_traffic;
     long int used_memory;
+    double uptime;
+
     std::string user;
     std::string group;
 };
@@ -82,5 +85,16 @@ std::string getProcessUser(int pid);
  * @return std::string The name of the group, unkown if couldn't be found or error if couldn't open the file
  */
 std::string getProcessGroup(int pid);
+
+
+inline double jiffiesToSeconds(long jiffies) {
+    return jiffies / sysconf(_SC_CLK_TCK);
+}
+
+/**
+ * @brief 
+ * 
+ */
+double getProcessUpTime(int pid);
 
 #endif

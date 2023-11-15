@@ -27,7 +27,7 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
 
     struct dirent* entry;
     while ((entry = readdir(dp))) {
-        // Check if the entry is a directory and represents a process (numeric name).
+        
         if (isdigit(entry->d_name[0])) {
             ProcessInfo process;
             process.pid = std::stoi(entry->d_name);
@@ -54,6 +54,7 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
                 status_file.close();
             }
             process.cpu_usage = GetProcessCpuUsage(process.pid);
+            process.uptime = getProcessUpTime(process.pid);
             
 
             for(uint i=0; i<args.argument_vector.size(); i++){
@@ -342,3 +343,33 @@ std::string getProcessGroup(int pid) {
 
 }
 
+double getProcessUpTime(int pid) {
+
+    long jiffies = time(nullptr);
+
+    std::ifstream statFile("/proc/" + std::to_string(pid) + "/stat");
+
+    if (!statFile) {
+        std::cerr << "Error abriendo el archivo /proc/" << pid << "/stat\n";
+        return -1;
+    }
+
+    std::string line;
+    std::getline(statFile, line);
+
+    statFile.close();
+
+    //Jiffies
+    std::istringstream iss(line);
+    long utime, stime;
+    for (int i = 0; i < 13; ++i) {
+        iss >> utime;
+    }
+    iss >> stime;
+
+    long totalTime = utime + stime;
+
+    double elapsedTimeSeconds = jiffiesToSeconds(jiffies - totalTime);
+
+    return elapsedTimeSeconds;
+}

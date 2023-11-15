@@ -67,7 +67,7 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
 
     // Display process information
     for (auto& process : processes) {
-        cout << setw(8) << process.pid << setw(20) << process.name;
+        cout << setw(8) << process.pid << setw(20) << process.name;//<<setw(20)<<process.uptime;
         
         displayCPUUsage(process);
 
