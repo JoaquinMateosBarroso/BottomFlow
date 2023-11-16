@@ -22,7 +22,8 @@ void printHelp(){
 
         "-m, --memory: muestra la memoria consumida por el proceso\n"
         "-G, --giga: muestra toda la información relacionada con memoria en gigabytes\n"
-        "-M, --mega: muestra toda la información relacionada con memoria en megabytes\n";
+        "-M, --mega: muestra toda la información relacionada con memoria en megabytes\n"
+        "-U, --uptime: muestra el tiempo que lleva un proceso creado\n";
 
 }
 
@@ -50,9 +51,6 @@ Arguments parseArgs(int argc, char* argv[]){
             case 'n':
                 args.n_process = atoi(optarg);
                 break;
-            case 'N':
-                args.argument_vector.push_back(opt);
-                break;
             case 'm':
                 args.argument_vector.push_back(opt);
                 break;
@@ -69,6 +67,9 @@ Arguments parseArgs(int argc, char* argv[]){
                 break;
             case 'M':
                 args.m_display = true;
+                break;
+            case 'U':
+                args.argument_vector.push_back(opt);
                 break;
             /*TO BE EXPANDED*/
         }
@@ -167,6 +168,9 @@ void sortProcesses(std::vector<ProcessInfo> &processes, int &sort_counter,
             case 'g':
                 std::sort(processes.begin(), processes.end(), group_comparison);
                 break;
+            case 'U':
+                std::sort(processes.begin(), processes.end(), uptime_comparison);
+                break;
 
         }
     }
@@ -196,6 +200,13 @@ bool group_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
 
 bool ram_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
     if(process1.used_memory > process2.used_memory)
+        return true;
+    else
+        return false;
+}
+
+bool uptime_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
+    if(process1.uptime > process2.uptime)
         return true;
     else
         return false;

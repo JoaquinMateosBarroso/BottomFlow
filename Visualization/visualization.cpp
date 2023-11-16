@@ -28,7 +28,6 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
         processes.resize(args.n_process);
     }
 
-
     drawHorizontalBar();
 
     // Display header
@@ -52,14 +51,15 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
                     cout << (sort_counter==i+1? GREEN: "") << setw(16) << "UsedMemory(KB)" << RESET;
             break;
             case 'u':
-                if(args.u_display)
-                    cout << (sort_counter==i+1? GREEN: "") << setw(16) << "User" << RESET;
+                cout << (sort_counter==i+1? GREEN: "") << setw(16) << "User" << RESET;
             break;
             case 'g':
-                if(args.group_display)
-                    cout << (sort_counter==i+1? GREEN: "") << setw(16) << "Group" << RESET;
-
+                cout << (sort_counter==i+1? GREEN: "") << setw(16) << "Group" << RESET;
             break;
+            case 'U':
+                cout << (sort_counter==i+1? GREEN: "") << setw(16) << "Uptime" << RESET;
+            break;
+                
         }
     }
 
@@ -67,7 +67,7 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
 
     // Display process information
     for (auto& process : processes) {
-        cout << setw(8) << process.pid << setw(20) << process.name;//<<setw(20)<<process.uptime;
+        cout << setw(8) << process.pid << setw(20) << process.name;
         
         displayCPUUsage(process);
 
@@ -85,6 +85,9 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
                     break;
                 case 'g':
                     displayGroup(process);
+                    break;
+                case 'U':
+                    displayUptime(process);
                     break;
             }
         }
@@ -110,6 +113,14 @@ void displayUser(struct ProcessInfo& process){
 
 void displayGroup(struct ProcessInfo& process){
     std::cout << setw(16) << process.group;
+}
+
+void displayUptime(struct ProcessInfo& process){
+    int minutes = process.uptime/60;
+    int seconds = (int)process.uptime%60;
+    std::string display = std::to_string(minutes) + "min " + std::to_string(seconds) + "sec";
+
+    std::cout << setw(16) << display;
 }
 
 char getKey(int timeoutMs)

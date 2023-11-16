@@ -54,6 +54,7 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
                 status_file.close();
             }
             process.cpu_usage = GetProcessCpuUsage(process.pid);
+            
             process.uptime = getProcessUpTime(process.pid);
             
 
@@ -345,8 +346,6 @@ std::string getProcessGroup(int pid) {
 
 double getProcessUpTime(int pid) {
 
-    long jiffies = time(nullptr);
-
     std::ifstream statFile("/proc/" + std::to_string(pid) + "/stat");
 
     if (!statFile) {
@@ -359,17 +358,31 @@ double getProcessUpTime(int pid) {
 
     statFile.close();
 
-    //Jiffies
     std::istringstream iss(line);
-    long utime, stime;
-    for (int i = 0; i < 13; ++i) {
-        iss >> utime;
+    std::vector<std::string> tokens(std::istream_iterator<std::string>{iss},
+                                    std::istream_iterator<std::string>());
+
+    long starttime;                                    
+
+    if (tokens.size() >= 22) {
+        starttime = std::stol(tokens[21]);
     }
-    iss >> stime;
 
-    long totalTime = utime + stime;
+    std::ifstream uptimeFile("/proc/uptime");
 
-    double elapsedTimeSeconds = jiffiesToSeconds(jiffies - totalTime);
+    if (!uptimeFile) {
+        std::cerr << "Error abriendo el archivo /proc/uptime\n";
+        return 1;
+    }
 
-    return elapsedTimeSeconds;
+    double uptime;
+    uptimeFile >> uptime;
+
+    uptimeFile.close();
+
+    double totalTimeSeconds = starttime / static_cast<double>(sysconf(_SC_CLK_TCK));
+
+    double elapsed = uptime - totalTimeSeconds;
+
+    return elapsed;
 }
