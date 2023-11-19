@@ -23,7 +23,8 @@ void printHelp(){
         "-m, --memory: muestra la memoria consumida por el proceso\n"
         "-G, --giga: muestra toda la información relacionada con memoria en gigabytes\n"
         "-M, --mega: muestra toda la información relacionada con memoria en megabytes\n"
-        "-U, --uptime: muestra el tiempo que lleva un proceso creado\n";
+        "-U, --uptime: muestra el tiempo que lleva un proceso creado\n"
+        "-D, --disk: muestra la información sobre el disco duro externo\n";
 
 }
 
@@ -71,6 +72,9 @@ Arguments parseArgs(int argc, char* argv[]){
             case 'U':
                 args.argument_vector.push_back(opt);
                 break;
+            case 'D':
+                args.argument_vector.push_back(opt);
+                break;
             /*TO BE EXPANDED*/
         }
     }
@@ -114,6 +118,8 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
             case 'g':
                 file << ',' << info.group;
                 break;
+            case 'D':
+                file << ',' << info.in_bytes << ',' << info.out_bytes;
             }
         }
         file << "\n";
@@ -143,9 +149,11 @@ void SaveToCSVHeader(const string &fileName, std::vector<int> arguments)
             case 'g':
                 file << ",Group";
                 break;
+            case 'D':
+                file << ",ReadBytes, WriteBytes";
+                break;
         }
     }
-
 
 
     file << "\n";
@@ -171,7 +179,9 @@ void sortProcesses(std::vector<ProcessInfo> &processes, int &sort_counter,
             case 'U':
                 std::sort(processes.begin(), processes.end(), uptime_comparison);
                 break;
-
+            case 'D':
+                std::sort(processes.begin(), processes.end(), IO_comparison);
+                break;
         }
     }
 }
@@ -207,6 +217,13 @@ bool ram_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
 
 bool uptime_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
     if(process1.uptime > process2.uptime)
+        return true;
+    else
+        return false;
+}
+
+bool IO_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
+    if(process1.in_bytes/process1.out_bytes > process2.in_bytes/process2.out_bytes)
         return true;
     else
         return false;

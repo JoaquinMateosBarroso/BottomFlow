@@ -54,9 +54,6 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
                 status_file.close();
             }
             process.cpu_usage = GetProcessCpuUsage(process.pid);
-            
-            process.uptime = getProcessUpTime(process.pid);
-            
 
             for(uint i=0; i<args.argument_vector.size(); i++){
                 switch(args.argument_vector[i]){
@@ -68,6 +65,15 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
                     break;
                     case 'g':
                         process.group = getProcessGroup(process.pid);
+                    break;
+                    case 'U':
+                        process.uptime = getProcessUpTime(process.pid);
+                    break;
+                    case 'D':
+                        struct IOStat stats;
+                        stats = getIOTraffic(process.pid, args);
+                        process.in_bytes = stats.in;
+                        process.out_bytes = stats.out;
                     break;
                 }
             }
@@ -385,4 +391,68 @@ double getProcessUpTime(int pid) {
     double elapsed = uptime - totalTimeSeconds;
 
     return elapsed;
+}
+
+
+IOStat getIOTraffic(int pid, Arguments& args){
+
+    IOStat stats;
+    stats.in = 1;
+    stats.out = 1;
+
+    std::string ruta = "/proc/" + std::to_string(pid) + "/io";
+
+    std::ifstream archivo(ruta.c_str(), std::ios::binary);
+    if (!archivo.is_open()) {
+        //std::cerr << "Error al abrir el archivo " << ruta << ": " << strerror(errno) << std::endl;
+        return stats;
+    }   
+
+    std::string linea;
+    while (std::getline(archivo, linea)) {
+        // Buscar la línea que contiene "read_bytes" y "write_bytes"
+        if (linea.find("read_bytes") != std::string::npos) {
+            std::istringstream iss(linea);
+            std::string key;
+            long long value;
+
+            // Extraer el valor de "read_bytes"
+            iss >> key >> value;
+            stats.in = value;
+        } else if (linea.find("write_bytes") != std::string::npos) {
+            std::istringstream iss(linea);
+            std::string key;
+            long long value;
+
+            // Extraer el valor de "write_bytes"
+            iss >> key >> value;
+            stats.out = value;
+        }
+    }
+    /*while (std::getline(archivo, linea)) {
+        std::istringstream ss(linea);
+        std::string campo;
+        ss >> campo;
+
+        if (campo == "read_bytes") {
+            ss >> stats.in;
+        } else if (campo == "write_bytes") {
+            ss >> stats.out;
+        }
+    }*/
+
+    if(args.g_display){
+        stats.in = stats.in >> 20;
+        stats.out = stats.out >> 20;
+    }else if(args.m_display){
+        stats.in = stats.in >> 10;
+        stats.out = stats.out >> 10;
+    }
+
+    if(stats.in == 0)
+        stats.in = 1;
+    if(stats.out == 0)
+        stats.out = 1;
+
+    return stats;
 }

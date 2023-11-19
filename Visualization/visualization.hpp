@@ -55,6 +55,8 @@ void displayGroup(struct ProcessInfo& process);
  */
 void displayUptime(struct ProcessInfo& process);
 
+void displayIOStats(struct ProcessInfo& process);
+
 /** Function to get key without waiting
  * @param timeoutMs timeout in milliseconds
  * @returns 0 if no key is pressed

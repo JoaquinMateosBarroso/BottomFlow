@@ -59,6 +59,17 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
             case 'U':
                 cout << (sort_counter==i+1? GREEN: "") << setw(16) << "Uptime" << RESET;
             break;
+            case 'D':
+                if(args.g_display)
+                    cout << (sort_counter==i+1? GREEN: "") << setw(16) << "ReadDisk(GB)" <<
+                        setw(16) << "WriteDisk(GB)" << RESET;
+                else if(args.m_display)
+                    cout << (sort_counter==i+1? GREEN: "") << setw(14) << "ReadDisk(MB)" << 
+                        setw(16) << "WriteDisk(MB)" << RESET;
+                else
+                    cout << (sort_counter==i+1? GREEN: "") << setw(14) << "ReadDisk(KB)" <<
+                        setw(16) << "WriteDisk(KB)" << RESET;
+            break;
                 
         }
     }
@@ -89,6 +100,10 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
                 case 'U':
                     displayUptime(process);
                     break;
+                case 'D':
+                    displayIOStats(process);
+                    break;
+                    
             }
         }
         cout << "\n";
@@ -121,6 +136,10 @@ void displayUptime(struct ProcessInfo& process){
     std::string display = std::to_string(minutes) + "min " + std::to_string(seconds) + "sec";
 
     std::cout << setw(16) << display;
+}
+
+void displayIOStats(struct ProcessInfo& process){
+    std::cout << setw(16) << process.in_bytes << setw(16) << process.out_bytes;
 }
 
 char getKey(int timeoutMs)
@@ -202,8 +221,8 @@ int countProcesses(const vector<ProcessInfo>& processes, const string& status)
 
 void showPreHeader(const vector<ProcessInfo>& processes, Arguments& args)
 {
-    struct NetTraffic net_traffic;
-    net_traffic = GetSystemNetUsage(args);
+    NetTraffic *net_traffic = new NetTraffic;
+    *net_traffic = GetSystemNetUsage(args);
 
     cout << BLUE;
     cout << "[PROCESS]:  Total number->" << processes.size() << 
@@ -223,9 +242,11 @@ void showPreHeader(const vector<ProcessInfo>& processes, Arguments& args)
         unit = "(B)";
     
     cout << BLUE;
-    cout << "[NET]: Received" << unit <<": " << net_traffic.in <<
-    "    Sent" << unit << ": " << net_traffic.out;
+    cout << "[NET]: Received" << unit <<": " << net_traffic->in <<
+    "    Sent" << unit << ": " << net_traffic->out;
     cout << RESET;
+
+    delete net_traffic;
 }
 
 void drawHorizontalBar()

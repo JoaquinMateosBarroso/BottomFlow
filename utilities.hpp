@@ -9,7 +9,7 @@
 struct ProcessInfo;
 
 /*TO BE EXPANDED*/
-const char* const short_opts = "ht:bc:n:NmugGMU";
+const char* const short_opts = "ht:bc:n:NmugGMUD";
 
 const option long_opts[] = {
     {"help", no_argument, nullptr, 'h'},
@@ -23,7 +23,8 @@ const option long_opts[] = {
     {"group", no_argument, nullptr, 'g'},
     {"giga", no_argument, nullptr, 'G'},
     {"mega", no_argument, nullptr, 'M'},
-    {"uptime", no_argument, nullptr, 'U'}
+    {"uptime", no_argument, nullptr, 'U'},
+    {"disk", no_argument, nullptr, 'D'}
 };
 
 struct Arguments {
@@ -137,5 +138,15 @@ bool ram_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
  * @return false First process uptime is lower
  */
 bool uptime_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
+
+/**
+ * @brief Compares secondary memory usage of a process
+ * 
+* @param process1 The first process
+ * @param process2 The second process
+ * @return true First process IO traffic is greater
+ * @return false First process IO traffic is lower
+ */
+bool IO_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
 
 #endif

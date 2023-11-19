@@ -16,6 +16,8 @@ struct ProcessInfo {
     double cpu_usage;
     double in_traffic;
     double out_traffic;
+    uint in_bytes;
+    uint out_bytes;
     long int used_memory;
     double uptime;
 
@@ -24,6 +26,11 @@ struct ProcessInfo {
 };
 
 struct NetTraffic{
+    uint in;
+    uint out;
+};
+
+struct IOStat{
     uint in;
     uint out;
 };
@@ -92,9 +99,19 @@ inline double jiffiesToSeconds(long jiffies) {
 }
 
 /**
- * @brief 
+ * @brief Get the Process Up Time
  * 
+ * @param pid The pid of the process
+ * @return double The uptime of the process
  */
 double getProcessUpTime(int pid);
+
+/**
+ * @brief Gets the in/out traffic of a process
+ * 
+ * @param pid The process identifier
+ * @return IOStat An structu with the information
+ */
+IOStat getIOTraffic(int pid, Arguments& args);
 
 #endif
