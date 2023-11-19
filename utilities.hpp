@@ -36,6 +36,8 @@ struct Arguments {
     bool group_display = false;
     bool u_display = false;
 
+    std::vector<long> prev_cpu_times;
+
     std::string csvName = "";
     std::vector<int> argument_vector;
 };

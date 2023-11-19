@@ -114,4 +114,10 @@ double getProcessUpTime(int pid);
  */
 IOStat getIOTraffic(int pid, Arguments& args);
 
+
+std::vector<long> get_cpu_usage();
+
+double calculate_cpu_percentage(const std::vector<long>& prev, const std::vector<long>& current);
+
+
 #endif

@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <thread>
 #include <fcntl.h>
+#include <iomanip>
+
 
 #include "visualization.hpp"
 #include <indicators.hpp>
@@ -111,11 +113,12 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
 }
 
 void displayCPUUsage(struct ProcessInfo& process){
-    std::cout << setw(8) << process.status << setw(15) << process.cpu_usage*100;
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << setw(8) << process.status << setw(15) << process.cpu_usage;
 }
 
 void displayNetUsage(struct ProcessInfo& process){
-    std::cout << setw(12) <<process.in_traffic << setw(12) << process.out_traffic;
+    std::cout << setw(12) << process.in_traffic << setw(12) << process.out_traffic;
 }
 
 void displayRAMUsage(struct ProcessInfo& process){
@@ -219,12 +222,39 @@ int countProcesses(const vector<ProcessInfo>& processes, const string& status)
     return counter;
 }
 
+void display_cpu_bars(double cpu_percentage) {
+    int num_bars = 50;
+    int num_filled_bars = static_cast<int>(cpu_percentage / 2.0);
+
+    std::cout << "CPU Usage: [";
+    for (int i = 0; i < num_bars; ++i) {
+        if (i < num_filled_bars) {
+            std::cout << "=";
+        } else {
+            std::cout << " ";
+        }
+    }
+    std::cout << "] " << cpu_percentage << "%" << std::endl;
+}
+
 void showPreHeader(const vector<ProcessInfo>& processes, Arguments& args)
 {
+    cout << BLUE;
     NetTraffic *net_traffic = new NetTraffic;
     *net_traffic = GetSystemNetUsage(args);
+    
+    double cpu_percentage = -1;
+    if (args.prev_cpu_times.empty())
+        args.prev_cpu_times = get_cpu_usage();
+    else
+    {
+        std::vector<long> current_cpu_times = get_cpu_usage();
+        cpu_percentage = calculate_cpu_percentage(args.prev_cpu_times, current_cpu_times);
+        args.prev_cpu_times = current_cpu_times;
 
-    cout << BLUE;
+        display_cpu_bars(cpu_percentage);
+    }
+
     cout << "[PROCESS]:  Total number->" << processes.size() << 
             ", Running->" << countProcesses(processes, "R") <<
             ", Sleeping->" << countProcesses(processes, "S") <<

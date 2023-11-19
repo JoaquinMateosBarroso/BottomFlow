@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import filedialog
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+from scipy import stats
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from datetime import datetime
 
@@ -10,11 +12,15 @@ class CSVPlotterApp:
         self.master = master
         self.master.title("BottomFlow")
 
-        self.file_path = ""
+        self.file_path = str()
         self.df = None
         self.fig, self.ax = plt.subplots(figsize=(8, 4))
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.master)
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
+        self.confidence_level = 0.95
+        self.confidence_interval_label = tk.Label(master, text="Space for confidence interval")
+        self.confidence_interval_label.pack(side=tk.BOTTOM, pady=10)
 
         self.load_button = tk.Button(master, text="Load CSV", command=self.load_csv)
         self.load_button.pack(side=tk.BOTTOM, pady=10)
@@ -45,7 +51,6 @@ class CSVPlotterApp:
         return [str(pid) + " " + self.df[self.df["PID"]==pid]["Name"].unique()[0] for pid in PIDs]
 
 
-
     def plot(self):
         if self.df is not None:
             self.ax.clear()
@@ -62,6 +67,9 @@ class CSVPlotterApp:
             self.ax.set_title(f"{self.column_var.get()} vs Time")
             self.canvas.draw()
 
+            self.confidence_interval_label.config(text=self.getConfidenceIntervalText())
+
+
     def getInterval(self) -> int:
         date_format = "%Y-%m-%d %H:%M:%S"
         datetime1 = datetime.strptime(self.df["Time"].unique()[1], date_format)
@@ -69,6 +77,24 @@ class CSVPlotterApp:
 
         # Calculate the time difference in seconds
         return (datetime1 - datetime2).total_seconds()
+    
+    def getConfidenceIntervalText(self) -> str:
+        text = ""
+        for PID in self.df["PID"].unique():
+            series = self.df[self.df["PID"] == PID][self.column_var.get()]
+            mean = series.mean()
+            std_dev = series.std()
+
+            margin_of_error = stats.t.ppf((1 + self.confidence_level) / 2, len(series) - 1) * (std_dev / np.sqrt(len(series)))
+            lower_bound = mean - margin_of_error
+            upper_bound = mean + margin_of_error
+
+            name = self.df[self.df["PID"]==PID]["Name"].unique()[0]
+            text += f"Confidence interval for {name} ({self.confidence_level:.0%}): [{lower_bound:.3f}, {upper_bound:.3f}]\n"
+        
+        return text
+                             
+
 
 if __name__ == "__main__":
     root = tk.Tk()

@@ -8,9 +8,15 @@
 #include <dirent.h>
 #include <iterator>
 #include <cstring>
+#include <map>
 
 #include "infoAcquisition.hpp"
 
+using namespace std;
+
+
+
+std::map<int, double> getProcessCpuUsage();
 
 std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
     std::vector<ProcessInfo> processes;
@@ -24,6 +30,7 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
         exit(1);
     }
 
+    map<int, double> cpuUsageMap = getProcessCpuUsage();
 
     struct dirent* entry;
     while ((entry = readdir(dp))) {
@@ -53,7 +60,7 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
                 }
                 status_file.close();
             }
-            process.cpu_usage = GetProcessCpuUsage(process.pid);
+            process.cpu_usage = cpuUsageMap[process.pid];
 
             for(uint i=0; i<args.argument_vector.size(); i++){
                 switch(args.argument_vector[i]){
@@ -82,63 +89,99 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
         }
     }
 
+
+
     closedir(dp);
     return processes;
 }
 
 
+std::map<int, double> getProcessCpuUsage() {
+    std::map<int, double> cpuUsageMap;
+
+    FILE* fp = popen("ps -e -o pid,%cpu", "r");
+
+    if (fp == nullptr) {
+        std::cerr << "Error opening pipe to ps command." << std::endl;
+        return cpuUsageMap; // Return an empty map in case of an error
+    }
+
+    // Read the header line
+    char buffer[128];
+    if (fgets(buffer, sizeof(buffer), fp) == nullptr) {
+        std::cerr << "Error reading ps output." << std::endl;
+        pclose(fp);
+        return cpuUsageMap; // Return an empty map in case of an error
+    }
+
+    // Read process information and store in the map
+    while (fgets(buffer, sizeof(buffer), fp) != nullptr) {
+        int pid;
+        double cpuUsage;
+
+        // Parse the PID and CPU usage from the output
+        if (sscanf(buffer, "%d %lf", &pid, &cpuUsage) == 2) {
+            cpuUsageMap[pid] = cpuUsage;
+        } else {
+            std::cerr << "Error parsing ps output." << std::endl;
+        }
+    }
+
+    pclose(fp);
+    return cpuUsageMap;
+}
+
+
 
 double GetProcessCpuUsage(int pid) {
-    // Open the "/proc" directory for the process.
-    std::string proc_dir = "/proc/" + std::to_string(pid);
-    std::ifstream stat_file(proc_dir + "/stat");
-
-    if (stat_file.is_open()) {
-        std::string line;
-        std::getline(stat_file, line);
-        std::istringstream iss(line);
-        std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
-                                       std::istream_iterator<std::string>{}};
-
-        // Extract the required information from the stat file.
-        if (tokens.size() >= 22) {
-            long utime = std::stol(tokens[13]);
-            long stime = std::stol(tokens[14]);
-            long total_time = utime + stime;
-            double seconds = sysconf(_SC_CLK_TCK);  // Number of clock ticks per second
-
-            // Calculate CPU usage as a percentage.
-            double cpu_usage = (total_time / seconds) / GetTotalCpuTime() * 100;
-
-            return cpu_usage;
-        }
+    std::ifstream statFile("/proc/" + std::to_string(pid) + "/stat");
+    if (!statFile.is_open()) {
+        std::cerr << "Error opening stat file for process " << pid << std::endl;
+        return -1.0;
     }
 
-    return 0.0; // Process not found or data unavailable.
-}
+    std::string line;
+    std::getline(statFile, line);
+    std::istringstream iss(line);
 
+    // Variables to store values from stat file
+    int utime, stime, cutime, cstime;
+    long total_time, uptime, starttime;
 
-double GetTotalCpuTime() {
-    std::ifstream stat_file("/proc/stat");
-
-    if (stat_file.is_open()) {
-        std::string line;
-        std::getline(stat_file, line);
-        std::istringstream iss(line);
-        std::vector<std::string> tokens{std::istream_iterator<std::string>{iss},
-                                       std::istream_iterator<std::string>{}};
-
-        if (tokens.size() > 1) {
-            long total_time = 0;
-            for (size_t i = 1; i < tokens.size(); i++) {
-                total_time += std::stol(tokens[i]);
-            }
-            return static_cast<double>(total_time);
-        }
+    for (int i = 1; i <= 22; ++i) {
+        if (i == 14) iss >> utime;   // user mode time
+        else if (i == 15) iss >> stime;  // kernel mode time
+        else if (i == 16) iss >> cutime; // user mode time of children
+        else if (i == 17) iss >> cstime; // kernel mode time of children
+        else iss.ignore();
     }
 
-    return 1.0; // Return a small value to avoid division by zero.
+    total_time = utime + stime + cutime + cstime;
+    
+    std::ifstream uptimeFile("/proc/uptime");
+    if (!uptimeFile.is_open()) {
+        std::cerr << "Error opening uptime file." << std::endl;
+        return -1.0;
+    }
+
+    uptimeFile >> uptime;
+    uptimeFile.close();
+
+    std::ifstream starttimeFile("/proc/" + std::to_string(pid) + "/starttime");
+    if (!starttimeFile.is_open()) {
+        std::cerr << "Error opening starttime file for process " << pid << std::endl;
+        return -1.0;
+    }
+
+    starttimeFile >> starttime;
+    starttimeFile.close();
+
+    float seconds = uptime - (starttime / sysconf(_SC_CLK_TCK));
+    float cpuUsage = 100.0 * ((total_time / sysconf(_SC_CLK_TCK)) / seconds);
+
+    return cpuUsage;
 }
+
 
 struct NetTraffic GetSystemNetUsage(Arguments& args){
 
@@ -444,4 +487,42 @@ IOStat getIOTraffic(int pid, Arguments& args){
         stats.out = 1;
 
     return stats;
+}
+
+
+
+std::vector<long> get_cpu_usage() {
+    std::ifstream file("/proc/stat");
+    std::string line;
+    std::getline(file, line);
+
+    std::istringstream iss(line);
+    // Skip the "cpu" string at the beginning
+    iss.ignore(4, ' ');
+
+    std::vector<long> cpu_times;
+    long value;
+    while (iss >> value) {
+        cpu_times.push_back(value);
+    }
+
+    return cpu_times;
+}
+
+double calculate_cpu_percentage(const std::vector<long>& prev, const std::vector<long>& current) {
+    long prev_idle = prev[3];
+    long idle = current[3];
+
+    long prev_non_idle = prev[0] + prev[1] + prev[2] + prev[4] + prev[5] + prev[6];
+    long non_idle = current[0] + current[1] + current[2] + current[4] + current[5] + current[6];
+
+    long prev_total = prev_idle + prev_non_idle;
+    long total = idle + non_idle;
+
+    long total_diff = total - prev_total;
+    long idle_diff = idle - prev_idle;
+
+    double cpu_percentage = 100.0 * (total_diff - idle_diff) / total_diff;
+
+    return cpu_percentage;
 }
