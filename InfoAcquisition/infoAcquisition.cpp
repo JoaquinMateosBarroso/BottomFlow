@@ -429,17 +429,6 @@ IOStat getIOTraffic(int pid, Arguments& args){
             stats.out = value;
         }
     }
-    /*while (std::getline(archivo, linea)) {
-        std::istringstream ss(linea);
-        std::string campo;
-        ss >> campo;
-
-        if (campo == "read_bytes") {
-            ss >> stats.in;
-        } else if (campo == "write_bytes") {
-            ss >> stats.out;
-        }
-    }*/
 
     if(args.g_display){
         stats.in = stats.in >> 20;
