@@ -73,10 +73,10 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
                         setw(16) << "WriteDisk(KB)" << RESET;
             break;
             case 'r':
-                cout << (sort_counter==i+1? GREEN: "") << setw(12) << "ReadCalls" << RESET;
+                cout << (sort_counter==i+1? GREEN: "") << setw(16) << "ReadCalls" << RESET;
             break;
             case 'w':
-                cout << (sort_counter==i+1? GREEN: "") << setw(12) << "WriteCalls" << RESET;
+                cout << (sort_counter==i+1? GREEN: "") << setw(16) << "WriteCalls" << RESET;
             break;
                 
         }
@@ -156,11 +156,11 @@ void displayIOStats(struct ProcessInfo& process){
 }
 
 void displayReadCalls(struct ProcessInfo& process){
-    std::cout << setw(12) << process.in_bytes;
+    std::cout << setw(16) << process.read_calls;
 }
 
 void displayWriteCalls(struct ProcessInfo& process){
-    std::cout << setw(12) << process.out_bytes;
+    std::cout << setw(16) << process.write_calls;
 }
 
 char getKey(int timeoutMs)
@@ -319,6 +319,13 @@ void drawHorizontalBar(std::vector<int> args)
             case 'D':
                 cout << "----------------";
             break;
+            case 'r':
+                cout << "----------------";
+            break;
+            case 'w':
+                cout << "----------------";
+            break;
+
         }
     }
     cout << "\n";

@@ -129,7 +129,7 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
                 break;
             case 'D':
                 file << ',' << info.in_bytes << ',' << info.out_bytes;
-            case 'r'
+            case 'r':
                 file << ',' << info.read_calls;
             case 'w':
                 file << ',' << info.write_calls;

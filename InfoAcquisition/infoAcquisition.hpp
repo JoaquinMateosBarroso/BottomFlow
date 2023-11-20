@@ -23,6 +23,9 @@ struct ProcessInfo {
 
     std::string user;
     std::string group;
+    
+    long int read_calls;
+    long int write_calls;
 };
 
 struct NetTraffic{
@@ -119,5 +122,20 @@ std::vector<long> get_cpu_usage();
 
 double calculate_cpu_percentage(const std::vector<long>& prev, const std::vector<long>& current);
 
+/**
+ * @brief Get the process' read calls
+ * 
+ * @param pid The process identifier
+ * @return long int The number of read calls
+ */
+long int getProcessReadCalls(int pid);
+
+/**
+ * @brief Get the process' write calls
+ * 
+ * @param pid The process identifier
+ * @return long int The number of write calls
+ */
+long int getProcessWriteCalls(int pid);
 
 #endif

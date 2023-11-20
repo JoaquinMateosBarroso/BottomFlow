@@ -9,7 +9,7 @@
 struct ProcessInfo;
 
 /*TO BE EXPANDED*/
-const char* const short_opts = "ht:bc:n:NmugGMUD";
+const char* const short_opts = "ht:bc:n:NmugrwGMUD";
 
 const option long_opts[] = {
     {"help", no_argument, nullptr, 'h'},
