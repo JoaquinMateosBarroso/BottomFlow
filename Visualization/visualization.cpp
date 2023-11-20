@@ -30,7 +30,7 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
         processes.resize(args.n_process);
     }
 
-    drawHorizontalBar();
+    drawHorizontalBar(args.argument_vector);
 
     // Display header
     cout << left << setw(8) << "PID" << setw(20) << "Command" << setw(8) << "Status" << RESET;
@@ -53,10 +53,10 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
                     cout << (sort_counter==i+1? GREEN: "") << setw(16) << "UsedMemory(KB)" << RESET;
             break;
             case 'u':
-                cout << (sort_counter==i+1? GREEN: "") << setw(16) << "User" << RESET;
+                cout << (sort_counter==i+1? GREEN: "") << setw(10) << "User" << RESET;
             break;
             case 'g':
-                cout << (sort_counter==i+1? GREEN: "") << setw(16) << "Group" << RESET;
+                cout << (sort_counter==i+1? GREEN: "") << setw(10) << "Group" << RESET;
             break;
             case 'U':
                 cout << (sort_counter==i+1? GREEN: "") << setw(16) << "Uptime" << RESET;
@@ -66,10 +66,10 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
                     cout << (sort_counter==i+1? GREEN: "") << setw(16) << "ReadDisk(GB)" <<
                         setw(16) << "WriteDisk(GB)" << RESET;
                 else if(args.m_display)
-                    cout << (sort_counter==i+1? GREEN: "") << setw(14) << "ReadDisk(MB)" << 
+                    cout << (sort_counter==i+1? GREEN: "") << setw(16) << "ReadDisk(MB)" << 
                         setw(16) << "WriteDisk(MB)" << RESET;
                 else
-                    cout << (sort_counter==i+1? GREEN: "") << setw(14) << "ReadDisk(KB)" <<
+                    cout << (sort_counter==i+1? GREEN: "") << setw(16) << "ReadDisk(KB)" <<
                         setw(16) << "WriteDisk(KB)" << RESET;
             break;
             case 'r':
@@ -82,7 +82,7 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
         }
     }
 
-    drawHorizontalBar();
+    drawHorizontalBar(args.argument_vector);
 
     // Display process information
     for (auto& process : processes) {
@@ -90,7 +90,6 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
         
         displayCPUUsage(process);
 
-        
         for(uint i=0; i<args.argument_vector.size(); i++){
             switch(args.argument_vector[i]){
                 case 'N':
@@ -137,11 +136,11 @@ void displayRAMUsage(struct ProcessInfo& process){
 }
 
 void displayUser(struct ProcessInfo& process){
-    std::cout << setw(16) << process.user;
+    std::cout << setw(10) << process.user;
 }
 
 void displayGroup(struct ProcessInfo& process){
-    std::cout << setw(16) << process.group;
+    std::cout << setw(10) << process.group;
 }
 
 void displayUptime(struct ProcessInfo& process){
@@ -245,7 +244,7 @@ void display_cpu_bars(double cpu_percentage) {
     int num_bars = 50;
     int num_filled_bars = static_cast<int>(cpu_percentage / 2.0);
 
-    std::cout << "CPU Usage: [";
+    std::cout << "[CPU Usage]: [";
     for (int i = 0; i < num_bars; ++i) {
         if (i < num_filled_bars) {
             std::cout << "=";
@@ -259,8 +258,8 @@ void display_cpu_bars(double cpu_percentage) {
 void showPreHeader(const vector<ProcessInfo>& processes, Arguments& args)
 {
     cout << BLUE;
-    NetTraffic *net_traffic = new NetTraffic;
-    *net_traffic = GetSystemNetUsage(args);
+    struct NetTraffic net_traffic;
+    net_traffic = GetSystemNetUsage(args);
     
     double cpu_percentage = -1;
     if (args.prev_cpu_times.empty())
@@ -291,14 +290,36 @@ void showPreHeader(const vector<ProcessInfo>& processes, Arguments& args)
         unit = "(B)";
     
     cout << BLUE;
-    cout << "[NET]: Received" << unit <<": " << net_traffic->in <<
-    "    Sent" << unit << ": " << net_traffic->out;
+    cout << "[NET]: Received" << unit <<": " << net_traffic.in <<
+    "    Sent" << unit << ": " << net_traffic.out;
     cout << RESET;
-
-    delete net_traffic;
 }
 
-void drawHorizontalBar()
+void drawHorizontalBar(std::vector<int> args)
 {
-    cout << "\n--------------------------------------------------------------------------------\n";
+    cout << "\n---------------------------------------------------";
+    int size = args.size();
+    for(int i=0; i<size; i++){
+        switch(args[i]){
+            case 'N':
+                cout << "------------";
+            break;
+            case 'm':
+                cout << "----------------";
+            break;
+            case 'u':
+                cout << "----------";
+            break;
+            case 'g':
+                cout << "----------";
+            break;
+            case 'U':
+                cout << "----------------";
+            break;
+            case 'D':
+                cout << "----------------";
+            break;
+        }
+    }
+    cout << "\n";
 }

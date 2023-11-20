@@ -220,14 +220,14 @@ bool cpu_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
 }
 
 bool user_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
-    if(process1.user > process2.user)
+    if(process1.user < process2.user)
         return true;
     else
         return false;
 }
 
 bool group_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
-    if(process1.group > process2.group)
+    if(process1.group < process2.group)
         return true;
     else
         return false;
