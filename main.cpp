@@ -22,14 +22,12 @@ int main(int argc, char* argv[]) {
     
     while (in != 'e')
     {
-        system("clear");
-
         vector<ProcessInfo> processes = ReadProcFileSystem(args);
         sortProcesses(processes, sort_counter, args.argument_vector);
         DisplayProcessInfo(processes, args, sort_counter);
 
         if (args.csvName != "")
-            SaveToCSV(processes, args.csvName, args.timeout, args.argument_vector);
+            SaveToCSV(processes, args.csvName, args.timeout, args.argument_vector, args);
 
         if (args.displayBar)
             DisplayBar(args.timeout);

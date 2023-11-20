@@ -36,7 +36,9 @@ struct Arguments {
     bool group_display = false;
     bool u_display = false;
 
+    
     std::vector<long> prev_cpu_times;
+    double cpu_percentage = -1.0;
 
     std::string csvName = "";
     std::vector<int> argument_vector;
@@ -68,7 +70,7 @@ Arguments parseArgs(int argc, char* argv[]);
  * @param arguments The elements to be stored
  */
 void SaveToCSV(const std::vector<ProcessInfo>& data, const std::string& filename, int timeout,
-    std::vector<int> arguments);
+    std::vector<int> arguments, const Arguments &args);
 
 /**
  * @brief Saves the header of the CSV file

@@ -18,6 +18,8 @@ using namespace std;
 
 std::map<int, double> getProcessCpuUsage();
 
+
+
 std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
     std::vector<ProcessInfo> processes;
 
@@ -96,91 +98,154 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
 }
 
 
-std::map<int, double> getProcessCpuUsage() {
-    std::map<int, double> cpuUsageMap;
-
-    FILE* fp = popen("ps -e -o pid,%cpu", "r");
-
-    if (fp == nullptr) {
-        std::cerr << "Error opening pipe to ps command." << std::endl;
-        return cpuUsageMap; // Return an empty map in case of an error
-    }
-
-    // Read the header line
-    char buffer[128];
-    if (fgets(buffer, sizeof(buffer), fp) == nullptr) {
-        std::cerr << "Error reading ps output." << std::endl;
-        pclose(fp);
-        return cpuUsageMap; // Return an empty map in case of an error
-    }
-
-    // Read process information and store in the map
-    while (fgets(buffer, sizeof(buffer), fp) != nullptr) {
-        int pid;
-        double cpuUsage;
-
-        // Parse the PID and CPU usage from the output
-        if (sscanf(buffer, "%d %lf", &pid, &cpuUsage) == 2) {
-            cpuUsageMap[pid] = cpuUsage;
-        } else {
-            std::cerr << "Error parsing ps output." << std::endl;
-        }
-    }
-
-    pclose(fp);
-    return cpuUsageMap;
-}
-
-
-
-double GetProcessCpuUsage(int pid) {
-    std::ifstream statFile("/proc/" + std::to_string(pid) + "/stat");
-    if (!statFile.is_open()) {
-        std::cerr << "Error opening stat file for process " << pid << std::endl;
-        return -1.0;
+int getNumCPUs() {
+    std::ifstream cpuinfoFile("/proc/cpuinfo");
+    if (!cpuinfoFile.is_open()) {
+        std::cerr << "Error opening /proc/cpuinfo\n";
+        return -1;  // Return -1 to indicate an error
     }
 
     std::string line;
-    std::getline(statFile, line);
-    std::istringstream iss(line);
+    int numCPUs = 0;
 
-    // Variables to store values from stat file
-    int utime, stime, cutime, cstime;
-    long total_time, uptime, starttime;
-
-    for (int i = 1; i <= 22; ++i) {
-        if (i == 14) iss >> utime;   // user mode time
-        else if (i == 15) iss >> stime;  // kernel mode time
-        else if (i == 16) iss >> cutime; // user mode time of children
-        else if (i == 17) iss >> cstime; // kernel mode time of children
-        else iss.ignore();
+    while (std::getline(cpuinfoFile, line)) {
+        if (line.find("processor") == 0) {
+            numCPUs++;
+        }
     }
 
-    total_time = utime + stime + cutime + cstime;
-    
-    std::ifstream uptimeFile("/proc/uptime");
-    if (!uptimeFile.is_open()) {
-        std::cerr << "Error opening uptime file." << std::endl;
-        return -1.0;
-    }
+    cpuinfoFile.close();
 
-    uptimeFile >> uptime;
-    uptimeFile.close();
-
-    std::ifstream starttimeFile("/proc/" + std::to_string(pid) + "/starttime");
-    if (!starttimeFile.is_open()) {
-        std::cerr << "Error opening starttime file for process " << pid << std::endl;
-        return -1.0;
-    }
-
-    starttimeFile >> starttime;
-    starttimeFile.close();
-
-    float seconds = uptime - (starttime / sysconf(_SC_CLK_TCK));
-    float cpuUsage = 100.0 * ((total_time / sysconf(_SC_CLK_TCK)) / seconds);
-
-    return cpuUsage;
+    return numCPUs;
 }
+std::map<int, double> getProcessCpuUsage() {
+
+    struct ProcessCPUUsage {
+        double utime;
+        double stime;
+    };
+    std::map<int, ProcessCPUUsage> cpuUsageMap;
+    std::map<int, double> outMap;
+
+    DIR* dp = opendir("/proc");
+    struct dirent* entry;
+    int pid;
+    long prev_total_time=0, post_total_time=0;
+
+
+    std::ifstream file("/proc/stat");
+    std::string line;
+    std::getline(file, line);
+    std::istringstream iss(line);
+    // Skip the "cpu" string at the beginning
+    iss.ignore(4, ' ');
+    long value;
+    while (iss >> value)
+        prev_total_time += value;
+    while ((entry = readdir(dp)))
+    {
+        if (isdigit(entry->d_name[0])) {
+            pid = std::stoi(entry->d_name);
+        }
+        else
+            continue;
+
+        std::ifstream statFile("/proc/" + std::to_string(pid) + "/stat");
+        if (!statFile.is_open()) {
+            std::cerr << "Error opening stat file for process " << pid << std::endl;
+            outMap[pid] = -1;
+        }
+        else
+        {
+            std::string line;
+            std::getline(statFile, line);
+            std::istringstream iss(line);
+
+            unsigned long int prev_utime, prev_stime;
+
+           
+            int wordCount = 0;
+            string word;
+
+            // Iterate through the words until we reach the 14th word
+            while (iss >> word && wordCount < 14) {
+                if (wordCount == 13) {
+                    prev_utime =  stoul(word);
+
+                    if (iss >> word) {
+                        prev_stime = stoul(word);
+                    }
+                }
+                wordCount++;
+            }
+
+
+
+            cpuUsageMap[pid].utime = prev_utime;
+            cpuUsageMap[pid].stime = prev_stime;
+            // cout << pid<<"-"<< prev_utime << endl;
+        }
+    }
+    // cout << "-------------------------------------------";
+
+    
+
+    usleep(200000);
+
+
+    file = std::ifstream("/proc/stat");
+    std::getline(file, line);
+    iss = std::istringstream(line);
+    // Skip the "cpu" string at the beginning
+    iss.ignore(4, ' ');
+    while (iss >> value)
+        post_total_time += value;
+
+    for (auto i: cpuUsageMap)
+    {
+        pid = i.first;
+        std::ifstream statFile("/proc/" + std::to_string(pid) + "/stat");
+        if (!statFile.is_open()) {
+            std::cerr << "Error opening stat file for process " << pid << std::endl;
+            return std::map<int,double>();
+        }
+        std::string line;
+        std::getline(statFile, line);
+        std::istringstream iss(line);
+
+        // Variables to store values from stat file
+        long unsigned prev_utime, prev_stime, post_utime, post_stime;
+        long unsigned wordCount = 0;
+        string word;
+
+        // Iterate through the words until we reach the 14th word
+        while (iss >> word && wordCount < 14) {
+            if (wordCount == 13) {
+                post_utime =  stoul(word);
+
+                if (iss >> word)
+                    post_stime = stoul(word);
+            }
+            wordCount++;
+        }
+
+        prev_utime = i.second.utime;
+        prev_stime = i.second.stime;
+
+        // double clockTicksPerSecond = sysconf(_SC_CLK_TCK);
+        outMap[pid] = (getNumCPUs()) * 100.0 * double(post_utime - prev_utime) / (post_total_time - prev_total_time);
+        // if (post_utime > prev_utime)
+        //     cout << pid << "-" << post_utime-prev_utime << endl;
+
+    }
+
+
+    return outMap;
+}
+
+
+
+
 
 
 struct NetTraffic GetSystemNetUsage(Arguments& args){
@@ -502,9 +567,8 @@ std::vector<long> get_cpu_usage() {
 
     std::vector<long> cpu_times;
     long value;
-    while (iss >> value) {
+    while (iss >> value)
         cpu_times.push_back(value);
-    }
 
     return cpu_times;
 }

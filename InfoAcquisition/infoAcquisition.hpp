@@ -35,6 +35,10 @@ struct IOStat{
     uint out;
 };
 
+struct CPUInfo{
+
+};
+
 /**
  * @brief Read processes information from /proc filesystem
  * 

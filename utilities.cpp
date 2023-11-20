@@ -86,23 +86,27 @@ Arguments parseArgs(int argc, char* argv[]){
     return args;
 }
 
+void SaveToCSV_CPUInfo(const string &fileName, double cpu_usage, double cpu_temp, double cpu_freq)
+{
+    std::ofstream file(fileName + "_CPUInfo.csv", std::ios_base::app); // Open in append mode
+    file << std::time(nullptr) <<  ", 0," << cpu_usage << ", " << cpu_temp << ", " << cpu_freq << "\n";
+    
+    file.close();
+}
+
 
 void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int timeout,
-    std::vector<int> arguments)
+    std::vector<int> arguments, const Arguments& args)
 {
-    std::ofstream file(filename, std::ios_base::app); // Open in append mode
+    std::ofstream file(filename + ".csv", std::ios_base::app); // Open in append mode
 
     // Get current time
     std::time_t currentTime = std::time(nullptr);
 
     // Write data to the CSV file
     for (const auto& info : data) {
-        // Format timestamp
-        std::tm* timeinfo = std::localtime(&currentTime);
-        std::ostringstream oss;
-        oss << std::put_time(timeinfo, "%Y-%m-%d %H:%M:%S");
 
-        file << oss.str() << ',' << info.pid << ',' << info.name << ',' << info.status << ',' << info.cpu_usage;
+        file << currentTime << ',' << info.pid << ',' << info.name << ',' << info.status << ',' << info.cpu_usage;
         
         for(uint i=0; i<arguments.size(); i++){
             switch(arguments[i]){
@@ -122,17 +126,21 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
                 file << ',' << info.in_bytes << ',' << info.out_bytes;
             }
         }
-        file << "\n";
+        file << "\n";    
     }
 
+
     file.close();
+
+    if (args.cpu_percentage >= 0)
+        SaveToCSV_CPUInfo(filename, args.cpu_percentage, -1, -1);
 
 }
 
 
 void SaveToCSVHeader(const string &fileName, std::vector<int> arguments)
 {
-    std::ofstream file(fileName);
+    std::ofstream file(fileName + ".csv");
     file << "Time,PID,Name,Status,CPU Usage (%)";
 
     for(uint i=0; i<arguments.size(); i++){
@@ -158,7 +166,13 @@ void SaveToCSVHeader(const string &fileName, std::vector<int> arguments)
 
     file << "\n";
     file.close();
+
+    file = std::ofstream(fileName + "_CPUInfo.csv");
+
+    file << "Time,PID, CPU Usage (%), CPU Temperature (ºC),CPU Frequency (MHz)\n";
+    file.close();
 }
+
 
 void sortProcesses(std::vector<ProcessInfo> &processes, int &sort_counter,
     std::vector<int> arguments)

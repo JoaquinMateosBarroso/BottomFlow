@@ -48,17 +48,16 @@ class CSVPlotterApp:
     
     def createLegend(self):
         PIDs = self.df["PID"].unique()
-        return [str(pid) + " " + self.df[self.df["PID"]==pid]["Name"].unique()[0] for pid in PIDs]
-
+        if "Name" in self.df.columns:
+            return [str(pid) + " " + self.df[self.df["PID"]==pid]["Name"].unique()[0] for pid in PIDs]
+        else:
+            return [str(pid) for pid in PIDs]
 
     def plot(self):
         if self.df is not None:
             self.ax.clear()
-            interval = self.getInterval()
-            times = pd.Series([interval*i for i in range(len(self.df["Time"].unique()))])
             for PID in self.df["PID"].unique():
-                times = pd.Series([interval*i for i in range(len(self.df[self.df["PID"] == PID]["Time"]))])
-                self.ax.plot(times,
+                self.ax.plot(self.df[self.df["PID"] == PID]["Time"],
                              self.df[self.df["PID"] == PID][self.column_var.get()])
 
             self.ax.legend(self.createLegend())
@@ -69,14 +68,6 @@ class CSVPlotterApp:
 
             self.confidence_interval_label.config(text=self.getConfidenceIntervalText())
 
-
-    def getInterval(self) -> int:
-        date_format = "%Y-%m-%d %H:%M:%S"
-        datetime1 = datetime.strptime(self.df["Time"].unique()[1], date_format)
-        datetime2 = datetime.strptime(self.df["Time"].unique()[0], date_format)
-
-        # Calculate the time difference in seconds
-        return (datetime1 - datetime2).total_seconds()
     
     def getConfidenceIntervalText(self) -> str:
         text = ""

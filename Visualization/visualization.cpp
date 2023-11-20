@@ -23,6 +23,8 @@ using namespace std;
 
 void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sort_counter) {
 
+    system("clear");
+
     showPreHeader(processes, args);
 
     // Resize the vector if needed
@@ -34,7 +36,7 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
 
     // Display header
     cout << left << setw(8) << "PID" << setw(20) << "Command" << setw(8) << "Status" << RESET;
-    cout << (sort_counter==0? GREEN: "") << setw(15) << "CPU Usage (%)" << RESET;
+    cout << (sort_counter==0? GREEN: "") << setw(15) << "All CPUs:" << RESET;
     
     int size = args.argument_vector.size();
 
@@ -237,22 +239,39 @@ void display_cpu_bars(double cpu_percentage) {
     std::cout << "] " << cpu_percentage << "%" << std::endl;
 }
 
+void showVersion()
+{
+    std::ifstream statFile("/proc/sys/kernel/version");
+    if (!statFile.is_open()) {
+        std::cerr << "Error opening version file" << std::endl;
+        return ;
+    }
+
+    std::string line;
+    std::getline(statFile, line);
+
+    std::cout << line << std::endl;
+    
+}
+
 void showPreHeader(const vector<ProcessInfo>& processes, Arguments& args)
 {
+    cout << GREEN;
+    showVersion();
+
     cout << BLUE;
     NetTraffic *net_traffic = new NetTraffic;
     *net_traffic = GetSystemNetUsage(args);
     
-    double cpu_percentage = -1;
     if (args.prev_cpu_times.empty())
         args.prev_cpu_times = get_cpu_usage();
     else
     {
         std::vector<long> current_cpu_times = get_cpu_usage();
-        cpu_percentage = calculate_cpu_percentage(args.prev_cpu_times, current_cpu_times);
+        args.cpu_percentage = calculate_cpu_percentage(args.prev_cpu_times, current_cpu_times);
         args.prev_cpu_times = current_cpu_times;
 
-        display_cpu_bars(cpu_percentage);
+        display_cpu_bars(args.cpu_percentage);
     }
 
     cout << "[PROCESS]:  Total number->" << processes.size() << 
