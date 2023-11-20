@@ -36,7 +36,7 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
 
     // Display header
     cout << left << setw(8) << "PID" << setw(20) << "Command" << setw(8) << "Status" << RESET;
-    cout << (sort_counter==0? GREEN: "") << setw(15) << "All CPUs:" << RESET;
+    cout << (sort_counter==0? GREEN: "") << setw(15) << "CPU Usage (%):" << RESET;
     
     int size = args.argument_vector.size();
 
