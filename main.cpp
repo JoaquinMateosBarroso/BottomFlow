@@ -40,5 +40,6 @@ int main(int argc, char* argv[]) {
         if (in == 's')
             sort_counter = (sort_counter + 1) % (args.argument_vector.size()+1);
     }
+    
     return 0;
 }

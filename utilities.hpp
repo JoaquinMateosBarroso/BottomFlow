@@ -9,7 +9,7 @@
 struct ProcessInfo;
 
 /*TO BE EXPANDED*/
-const char* const short_opts = "ht:bc:n:NmugGMUD";
+const char* const short_opts = "ht:bc:n:NmugrwGMUD";
 
 const option long_opts[] = {
     {"help", no_argument, nullptr, 'h'},
@@ -19,6 +19,8 @@ const option long_opts[] = {
     {"number", required_argument, nullptr, 'n'},
     {"net", no_argument, nullptr, 'N'},
     {"memory", no_argument, nullptr, 'm'},
+    {"read", no_argument, nullptr, 'r'},
+    {"write", no_argument, nullptr, 'w'},
     {"user", no_argument, nullptr, 'u'},
     {"group", no_argument, nullptr, 'g'},
     {"giga", no_argument, nullptr, 'G'},
@@ -33,8 +35,10 @@ struct Arguments {
     int n_process = 10;
     bool g_display = false;
     bool m_display = false;
-    bool group_display = false;
+    bool read_display = false;
+    bool write_display = false;
     bool u_display = false;
+    bool group_display = false;
 
     
     std::vector<long> prev_cpu_times;
@@ -152,5 +156,25 @@ bool uptime_comparison(const ProcessInfo& process1, const ProcessInfo& process2)
  * @return false First process IO traffic is lower
  */
 bool IO_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
+
+/**
+ * @brief Compares number of read calls of a process
+ * 
+ * @param process1 The first process
+ * @param process2 The second process
+ * @return true First process read calls is greater
+ * @return false First process read calls is lower
+ */
+bool read_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
+
+/**
+ * @brief Compares number of write calls of a process
+ * 
+ * @param process1 The first process
+ * @param process2 The second process
+ * @return true First process write calls is greater
+ * @return false First process write calls is lower
+ */
+bool write_comparison(const ProcessInfo& process1, const ProcessInfo& process2);
 
 #endif

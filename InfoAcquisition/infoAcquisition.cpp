@@ -84,6 +84,12 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
                         process.in_bytes = stats.in;
                         process.out_bytes = stats.out;
                     break;
+                    case 'r':
+                        process.read_calls = getProcessReadCalls(process.pid);
+                    break;
+                    case 'w':
+                        process.write_calls = getProcessWriteCalls(process.pid);
+                    break;
                 }
             }
             
@@ -589,4 +595,71 @@ double calculate_cpu_percentage(const std::vector<long>& prev, const std::vector
     double cpu_percentage = 100.0 * (total_diff - idle_diff) / total_diff;
 
     return cpu_percentage;
+}
+
+long int getProcessReadCalls(int pid) {
+    long int readCalls = 0;
+    
+    std::string ioFilePath = "/proc/" + std::to_string(pid) + "/io";
+    
+    std::ifstream ioFile(ioFilePath, std::ios::binary);
+
+    if(!ioFile.is_open()) {
+        //std::cerr << "Error: Unable to open " << ioFilePath << std::endl;
+        return readCalls;
+    }
+
+    std::string line;
+
+    while (std::getline(ioFile, line)) {
+        if(line.find("syscr:") != std::string::npos) {
+            std::istringstream iss(line);
+            std::string key;
+            long int value;
+            
+            iss >> key >> value;
+
+            readCalls = value;
+            
+            break;
+        }
+    }
+
+    ioFile.close();
+
+    return readCalls;
+}
+
+long int getProcessWriteCalls(int pid) {
+    long int writeCalls = 0;
+    
+    std::string ioFilePath = "/proc/" + std::to_string(pid) + "/io";
+    
+    std::ifstream ioFile(ioFilePath, std::ios::binary);
+
+    if(!ioFile.is_open()) {
+        //std::cerr << "Error: Unable to open " << ioFilePath << std::endl;
+        return writeCalls;
+    }
+
+    std::string line;
+
+    while (std::getline(ioFile, line)) {
+        if(line.find("syscw:") != std::string::npos) {
+            std::istringstream iss(line);
+            std::string key;
+            long int value;
+            
+            iss >> key >> value;
+
+            writeCalls = value;
+            
+            break;
+        }
+    }
+
+
+    ioFile.close();
+
+    return writeCalls;
 }

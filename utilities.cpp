@@ -15,17 +15,18 @@ void printHelp(){
         "-b, --displayBar: muestra la barra de progreso\n\n"
 
         "-c, --saveToCSV: guarda la información en un fichero CSV\n"
-        "-n, --number: modifica el número de procesos mostrados\n"
+        "-n, --number: modifica el número de procesos mostrados\n\n"
 
         "-u, --user: muestra el usuario real del proceso\n"
         "-g, --group: muestra el grupo real del proceso\n\n"
 
         "-m, --memory: muestra la memoria consumida por el proceso\n"
+        "-r, --read: muestra la cantidad de llamadas de lectura\n"
+        "-w, --write: muestra la cantidad de llamadas de escritura\n"
         "-G, --giga: muestra toda la información relacionada con memoria en gigabytes\n"
         "-M, --mega: muestra toda la información relacionada con memoria en megabytes\n"
         "-U, --uptime: muestra el tiempo que lleva un proceso creado\n"
         "-D, --disk: muestra la información sobre el disco duro externo\n";
-
 }
 
 
@@ -62,6 +63,14 @@ Arguments parseArgs(int argc, char* argv[]){
             case 'g':
                 args.argument_vector.push_back(opt);
                 args.group_display = true;
+                break;
+            case 'r':
+                args.argument_vector.push_back(opt);
+                args.read_display = true;
+                break;
+            case 'w':
+                args.argument_vector.push_back(opt);
+                args.write_display = true;
                 break;
             case 'G':
                 args.g_display = true;
@@ -124,6 +133,10 @@ void SaveToCSV(const vector<ProcessInfo>& data, const string& filename, int time
                 break;
             case 'D':
                 file << ',' << info.in_bytes << ',' << info.out_bytes;
+            case 'r':
+                file << ',' << info.read_calls;
+            case 'w':
+                file << ',' << info.write_calls;
             }
         }
         file << "\n";    
@@ -159,6 +172,12 @@ void SaveToCSVHeader(const string &fileName, std::vector<int> arguments)
                 break;
             case 'D':
                 file << ",ReadBytes, WriteBytes";
+                break;
+            case 'r':
+                file << ",ReadCalls";
+                break;
+            case 'w':
+                file << ",WriteCalls";
                 break;
         }
     }
@@ -196,6 +215,12 @@ void sortProcesses(std::vector<ProcessInfo> &processes, int &sort_counter,
             case 'D':
                 std::sort(processes.begin(), processes.end(), IO_comparison);
                 break;
+            case 'r':
+                std::sort(processes.begin(), processes.end(), read_comparison);
+                break;
+            case 'w':
+                std::sort(processes.begin(), processes.end(), write_comparison);
+                break;
         }
     }
 }
@@ -209,14 +234,14 @@ bool cpu_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
 }
 
 bool user_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
-    if(process1.user > process2.user)
+    if(process1.user < process2.user)
         return true;
     else
         return false;
 }
 
 bool group_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
-    if(process1.group > process2.group)
+    if(process1.group < process2.group)
         return true;
     else
         return false;
@@ -238,6 +263,20 @@ bool uptime_comparison(const ProcessInfo& process1, const ProcessInfo& process2)
 
 bool IO_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
     if(process1.in_bytes+process1.out_bytes > process2.in_bytes+process2.out_bytes)
+        return true;
+    else
+        return false;
+}
+
+bool read_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
+    if(process1.read_calls > process2.read_calls)
+        return true;
+    else
+        return false;
+}
+
+bool write_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
+    if(process1.write_calls > process2.write_calls)
         return true;
     else
         return false;
