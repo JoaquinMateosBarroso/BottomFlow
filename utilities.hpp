@@ -93,7 +93,8 @@ void SaveToCSVHeader(const std::string &fileName, std::vector<int> arguments);
  * @param arguments A vector of arguments to retrieve the parameter to sort
  */
 void sortProcesses(std::vector<ProcessInfo> &processes, int &sort_counter,
-    std::vector<int> arguments);
+    std::vector<int> arguments, const std::string &commandFilter, 
+    const std::string &userFilter, const std::string &groupFilter);
 
 /**
  * @brief Compares CPU usage of processes

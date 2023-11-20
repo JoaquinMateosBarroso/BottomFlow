@@ -192,10 +192,44 @@ void SaveToCSVHeader(const string &fileName, std::vector<int> arguments)
     file.close();
 }
 
+void eraseProcesses(std::vector<ProcessInfo> &processes, int &sort_counter,
+    std::vector<int> arguments, const std::string &commandFilter,
+    const std::string &userFilter, const std::string &groupFilter)
+{
+    if (commandFilter != "")
+        processes.erase(std::remove_if(processes.begin(), processes.end(), 
+            [&commandFilter](const ProcessInfo& process) {
+                return process.name.find(commandFilter) == std::string::npos;}),
+            processes.end());
+    
+    if (userFilter != "")
+        processes.erase(std::remove_if(processes.begin(), processes.end(), 
+            [&userFilter](const ProcessInfo& process) {
+                return process.user.find(userFilter) == std::string::npos;}),
+            processes.end());
+    
+    if (groupFilter != "")
+        processes.erase(std::remove_if(processes.begin(), processes.end(), 
+            [&groupFilter](const ProcessInfo& process) {
+                return process.group.find(groupFilter) == std::string::npos;}),
+            processes.end());
+
+    processes.erase(std::remove_if(processes.begin(), processes.end(), 
+            [&commandFilter](const ProcessInfo& process) {
+                return process.name.find("bflow") != std::string::npos;}),
+            processes.end());
+}
+
 
 void sortProcesses(std::vector<ProcessInfo> &processes, int &sort_counter,
-    std::vector<int> arguments)
+    std::vector<int> arguments, const std::string &commandFilter,
+    const std::string &userFilter, const std::string &groupFilter)
 {
+
+    eraseProcesses(processes, sort_counter, arguments, commandFilter, userFilter, groupFilter);
+
+    
+
     if((sort_counter - 1) == -1){
         std::sort(processes.begin(), processes.end(), cpu_comparison);
     }else{

@@ -19,11 +19,14 @@ int main(int argc, char* argv[]) {
         SaveToCSVHeader(args.csvName, args.argument_vector);
 
     cout << setprecision(5) << fixed;
+    string commandFilter;
+    string userFilter;
+    string groupFilter;
     
     while (in != 'e')
     {
         vector<ProcessInfo> processes = ReadProcFileSystem(args);
-        sortProcesses(processes, sort_counter, args.argument_vector);
+        sortProcesses(processes, sort_counter, args.argument_vector, commandFilter, userFilter, groupFilter);
         DisplayProcessInfo(processes, args, sort_counter);
 
         if (args.csvName != "")
@@ -39,6 +42,16 @@ int main(int argc, char* argv[]) {
 
         if (in == 's')
             sort_counter = (sort_counter + 1) % (args.argument_vector.size()+1);
+        else if (in != 0)
+        {
+            cout << endl << "Introduce the filter: ";
+            switch (in)
+            {
+            case 'c': cin >> commandFilter; break;
+            case 'u': cin >> userFilter; break;
+            case 'g': cin >> groupFilter; break;
+            }
+        }
     }
     
     return 0;
