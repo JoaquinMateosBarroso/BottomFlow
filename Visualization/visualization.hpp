@@ -73,7 +73,7 @@ int DisplayBar(int msToCharge = 4000);
  * @brief Draws an horizontal bar for separation
  * 
  */
-void drawHorizontalBar();
+void drawHorizontalBar(std::vector<int> args);
 
 /**
  * @brief Shows the pre-header
