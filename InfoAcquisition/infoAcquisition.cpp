@@ -239,7 +239,7 @@ std::map<int, double> getProcessCpuUsage() {
         prev_stime = i.second.stime;
 
         // double clockTicksPerSecond = sysconf(_SC_CLK_TCK);
-        outMap[pid] = (getNumCPUs()) * 100.0 * double(post_utime - prev_utime) / (post_total_time - prev_total_time);
+        outMap[pid] = (getNumCPUs()) * 100.0 * double(post_utime+post_stime - prev_utime-prev_stime) / (post_total_time - prev_total_time);
         // if (post_utime > prev_utime)
         //     cout << pid << "-" << post_utime-prev_utime << endl;
 
