@@ -317,7 +317,7 @@ void drawHorizontalBar(std::vector<int> args)
                 cout << "----------------";
             break;
             case 'D':
-                cout << "----------------";
+                cout << "--------------------------------";
             break;
             case 'r':
                 cout << "----------------";
