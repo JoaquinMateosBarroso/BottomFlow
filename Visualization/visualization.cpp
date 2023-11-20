@@ -72,6 +72,12 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
                     cout << (sort_counter==i+1? GREEN: "") << setw(14) << "ReadDisk(KB)" <<
                         setw(16) << "WriteDisk(KB)" << RESET;
             break;
+            case 'r':
+                cout << (sort_counter==i+1? GREEN: "") << setw(12) << "ReadCalls" << RESET;
+            break;
+            case 'w':
+                cout << (sort_counter==i+1? GREEN: "") << setw(12) << "WriteCalls" << RESET;
+            break;
                 
         }
     }
@@ -105,7 +111,12 @@ void DisplayProcessInfo(vector<ProcessInfo>& processes, Arguments& args, int sor
                 case 'D':
                     displayIOStats(process);
                     break;
-                    
+                case 'r':
+                    displayReadCalls(process);
+                    break;
+                case 'w':
+                    displayWriteCalls(process);
+                    break;
             }
         }
         cout << "\n";
@@ -143,6 +154,14 @@ void displayUptime(struct ProcessInfo& process){
 
 void displayIOStats(struct ProcessInfo& process){
     std::cout << setw(16) << process.in_bytes << setw(16) << process.out_bytes;
+}
+
+void displayReadCalls(struct ProcessInfo& process){
+    std::cout << setw(12) << process.in_bytes;
+}
+
+void displayWriteCalls(struct ProcessInfo& process){
+    std::cout << setw(12) << process.out_bytes;
 }
 
 char getKey(int timeoutMs)
