@@ -45,6 +45,7 @@ struct Arguments {
     double cpu_percentage = -1.0;
 
     std::map<int, double> prev_proccess_times;
+    long prev_total_time = 0;
 
     std::string csvName = "";
     std::vector<int> argument_vector;

@@ -28,7 +28,7 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
         exit(1);
     }
 
-    map<int, double> cpuUsageMap = getProcessCpuUsage(args.prev_proccess_times);
+    map<int, double> cpuUsageMap = getProcessCpuUsage(args.prev_proccess_times, args.prev_total_time);
 
     struct dirent* entry;
     while ((entry = readdir(dp))) {
@@ -121,7 +121,7 @@ int getNumCPUs() {
     return numCPUs;
 }
 
-std::map<int, double> getProcessCpuUsage(std::map<int, double> &prev_cpu_times) {
+std::map<int, double> getProcessCpuUsage(std::map<int, double> &prev_cpu_times, long &prev_total_time) {
 
     struct ProcessCPUUsage {
         double utime;
@@ -132,8 +132,7 @@ std::map<int, double> getProcessCpuUsage(std::map<int, double> &prev_cpu_times) 
 
     DIR* dp = opendir("/proc");
     struct dirent* entry;
-    int pid;
-    long prev_total_time=0, post_total_time=0;
+    long post_total_time=0;
 
 
     std::ifstream file("/proc/stat");
@@ -143,104 +142,60 @@ std::map<int, double> getProcessCpuUsage(std::map<int, double> &prev_cpu_times) 
     // Skip the "cpu" string at the beginning
     iss.ignore(4, ' ');
     long value;
-    while (iss >> value)
-        prev_total_time += value;
-    while ((entry = readdir(dp)))
-    {
-        if (isdigit(entry->d_name[0])) {
-            pid = std::stoi(entry->d_name);
-        }
-        else
-            continue;
 
-        std::ifstream statFile("/proc/" + std::to_string(pid) + "/stat");
-        if (!statFile.is_open()) {
-            std::cerr << "Error opening stat file for process " << pid << std::endl;
-            outMap[pid] = -1;
-        }
-        else
-        {
-            std::string line;
-            std::getline(statFile, line);
-            std::istringstream iss(line);
-
-            unsigned long int prev_utime, prev_stime;
-
-           
-            int wordCount = 0;
-            string word;
-
-            // Iterate through the words until we reach the 14th word
-            while (iss >> word && wordCount < 14) {
-                if (wordCount == 13) {
-                    prev_utime =  stoul(word);
-
-                    if (iss >> word) {
-                        prev_stime = stoul(word);
-                    }
-                }
-                wordCount++;
-            }
-
-
-
-            cpuUsageMap[pid].utime = prev_utime;
-            cpuUsageMap[pid].stime = prev_stime;
-            // cout << pid<<"-"<< prev_utime << endl;
-        }
-    }
-    // cout << "-------------------------------------------";
-
-    
-
-    usleep(200000);
-
-
-    file = std::ifstream("/proc/stat");
-    std::getline(file, line);
-    iss = std::istringstream(line);
-    // Skip the "cpu" string at the beginning
-    iss.ignore(4, ' ');
     while (iss >> value)
         post_total_time += value;
 
-    for (auto i: cpuUsageMap)
+    while ((entry = readdir(dp)))
     {
-        pid = i.first;
+        if (!isdigit(entry->d_name[0]))
+            continue;
+        
+        int pid = std::stoi(entry->d_name);
+
         std::ifstream statFile("/proc/" + std::to_string(pid) + "/stat");
+
         if (!statFile.is_open()) {
             std::cerr << "Error opening stat file for process " << pid << std::endl;
-            return std::map<int,double>();
+            outMap[pid] = -1;
+            continue;
         }
         std::string line;
         std::getline(statFile, line);
         std::istringstream iss(line);
 
-        // Variables to store values from stat file
-        long unsigned prev_utime, prev_stime, post_utime, post_stime;
-        long unsigned wordCount = 0;
+        long post_utime, post_stime;
+
+        
+        int wordCount = 0;
         string word;
 
         // Iterate through the words until we reach the 14th word
         while (iss >> word && wordCount < 14) {
             if (wordCount == 13) {
-                post_utime =  stoul(word);
+                post_utime =  stol(word);
 
                 if (iss >> word)
-                    post_stime = stoul(word);
+                    post_stime = stol(word);
             }
             wordCount++;
         }
 
-        prev_utime = i.second.utime;
-        prev_stime = i.second.stime;
+        if (!prev_cpu_times.empty())
+        {
+            // double clockTicksPerSecond = sysconf(_SC_CLK_TCK);
+            outMap[pid] = (getNumCPUs()) * 100.0 * double(post_utime+post_stime - prev_cpu_times[pid]) / (post_total_time - prev_total_time);
+            // 
+        }
 
-        // double clockTicksPerSecond = sysconf(_SC_CLK_TCK);
-        outMap[pid] = (getNumCPUs()) * 100.0 * double(post_utime+post_stime - prev_utime-prev_stime) / (post_total_time - prev_total_time);
-        // if (post_utime > prev_utime)
-        //     cout << pid << "-" << post_utime-prev_utime << endl;
-
+        // Prepare data for next iteration
+        prev_cpu_times[pid] = post_utime+post_stime;
     }
+    prev_total_time = post_total_time;
+
+    // Prepare structures for next iteration:
+
+
 
 
     return outMap;

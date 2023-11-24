@@ -143,6 +143,6 @@ long int getProcessReadCalls(int pid);
  */
 long int getProcessWriteCalls(int pid);
 
-std::map<int, double> getProcessCpuUsage(std::map<int, double> &prev_cpu_times);
+std::map<int, double> getProcessCpuUsage(std::map<int, double> &prev_cpu_times, long &prev_total_time);
 
 #endif

@@ -42,11 +42,11 @@ int main(int argc, char* argv[]) {
 
         switch(in)
         {
+            case 0: continue;
+            case 'e': exit(0);
             case 's':
                 sort_counter = (sort_counter + 1) % (args.argument_vector.size()+1);
                 break;
-            case 'e':
-                exit(0);
             default:
                 cout << endl << "Introduce the filter: ";
                 switch (in)
