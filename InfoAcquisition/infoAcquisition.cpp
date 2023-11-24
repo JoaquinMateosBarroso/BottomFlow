@@ -16,10 +16,6 @@ using namespace std;
 
 
 
-std::map<int, double> getProcessCpuUsage();
-
-
-
 std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
     std::vector<ProcessInfo> processes;
 
@@ -32,7 +28,7 @@ std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
         exit(1);
     }
 
-    map<int, double> cpuUsageMap = getProcessCpuUsage();
+    map<int, double> cpuUsageMap = getProcessCpuUsage(args.prev_proccess_times);
 
     struct dirent* entry;
     while ((entry = readdir(dp))) {
@@ -124,7 +120,8 @@ int getNumCPUs() {
 
     return numCPUs;
 }
-std::map<int, double> getProcessCpuUsage() {
+
+std::map<int, double> getProcessCpuUsage(std::map<int, double> &prev_cpu_times) {
 
     struct ProcessCPUUsage {
         double utime;

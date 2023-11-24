@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <unistd.h>
+#include <map>
 
 #include "utilities.hpp"
 
@@ -141,5 +142,7 @@ long int getProcessReadCalls(int pid);
  * @return long int The number of write calls
  */
 long int getProcessWriteCalls(int pid);
+
+std::map<int, double> getProcessCpuUsage(std::map<int, double> &prev_cpu_times);
 
 #endif

@@ -40,17 +40,22 @@ int main(int argc, char* argv[]) {
 
         in = getKey(1);
 
-        if (in == 's')
-            sort_counter = (sort_counter + 1) % (args.argument_vector.size()+1);
-        else if (in != 0)
+        switch(in)
         {
-            cout << endl << "Introduce the filter: ";
-            switch (in)
-            {
-            case 'c': cin >> commandFilter; break;
-            case 'u': cin >> userFilter; break;
-            case 'g': cin >> groupFilter; break;
-            }
+            case 's':
+                sort_counter = (sort_counter + 1) % (args.argument_vector.size()+1);
+                break;
+            case 'e':
+                exit(0);
+            default:
+                cout << endl << "Introduce the filter: ";
+                switch (in)
+                {
+                case 'c': cin >> commandFilter; break;
+                case 'u': cin >> userFilter; break;
+                case 'g': cin >> groupFilter; break;
+                }
+    	    in = 0;
         }
     }
     
