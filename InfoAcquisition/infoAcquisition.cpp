@@ -19,7 +19,6 @@ using namespace std;
 std::vector<ProcessInfo> ReadProcFileSystem(Arguments& args) {
     std::vector<ProcessInfo> processes;
 
-    // Open the "/proc" directory.
     std::string proc_dir = "/proc";
     DIR* dp = opendir(proc_dir.c_str());
 
@@ -544,7 +543,7 @@ double calculate_cpu_percentage(const std::vector<long>& prev, const std::vector
     long total_diff = total - prev_total;
     long idle_diff = idle - prev_idle;
 
-    double cpu_percentage = 100.0 * (total_diff - idle_diff) / total_diff;
+    double cpu_percentage = 100.0 * ( total_diff - idle_diff) / total_diff;
 
     return cpu_percentage;
 }

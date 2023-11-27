@@ -35,6 +35,9 @@ class CSVPlotterApp:
         self.plot_button = tk.Button(master, text="Plot", command=self.plot)
         self.plot_button.pack(side=tk.BOTTOM, pady=10)
 
+        self.hide_label_button = tk.Button(master, text="Hide legend", command=self.hide_label_plot)
+        self.hide_label_button.pack(side=tk.BOTTOM, pady=10)
+
     def load_csv(self):
         self.file_path = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
         if self.file_path:
@@ -53,14 +56,15 @@ class CSVPlotterApp:
         else:
             return [str(pid) for pid in PIDs]
 
-    def plot(self):
+    def plot(self, show_legend=True):
         if self.df is not None:
             self.ax.clear()
             for PID in self.df["PID"].unique():
                 self.ax.plot(self.df[self.df["PID"] == PID]["Time"],
                              self.df[self.df["PID"] == PID][self.column_var.get()])
+            if (show_legend):
+                self.ax.legend(self.createLegend())
 
-            self.ax.legend(self.createLegend())
             self.ax.set_xlabel("Time(s)")
             self.ax.set_ylabel(self.column_var.get())
             self.ax.set_title(f"{self.column_var.get()} vs Time")
@@ -68,10 +72,16 @@ class CSVPlotterApp:
 
             self.confidence_interval_label.config(text=self.getConfidenceIntervalText())
 
+    def hide_label_plot(self):
+        self.plot(False)
+
     
     def getConfidenceIntervalText(self) -> str:
         text = ""
+        i = 1
         for PID in self.df["PID"].unique():
+            if i > 10:
+                break
             series = self.df[self.df["PID"] == PID][self.column_var.get()]
             mean = series.mean()
             std_dev = series.std()
@@ -82,7 +92,7 @@ class CSVPlotterApp:
 
             name = self.df[self.df["PID"]==PID]["Name"].unique()[0]
             text += f"Confidence interval for {name} ({self.confidence_level:.0%}): [{lower_bound:.3f}, {upper_bound:.3f}]\n"
-        
+            i += 1
         return text
                              
 
@@ -91,3 +101,9 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = CSVPlotterApp(root)
     root.mainloop()
+
+
+1 (systemd) S 0 1 1 0 -1 4194560 494858 16475709 
+1940 50883 2145 2062 1282065 144545 20 0 1 0 11 172400640 
+1858 18446744073709551615 1 1 0 0 0 0 671173123 4096 1260 
+0 0 0 17 4 0 0 0 0 0 0 0 0 0 0 0 0 0
