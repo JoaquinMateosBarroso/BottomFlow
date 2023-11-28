@@ -497,6 +497,10 @@ IOStat getIOTraffic(int pid, Arguments& args){
         }
     }
 
+    //From bytes to KB
+    stats.in = stats.in >> 10;
+    stats.out = stats.out >> 10;
+
     if(args.g_display){
         stats.in = stats.in >> 20;
         stats.out = stats.out >> 20;
