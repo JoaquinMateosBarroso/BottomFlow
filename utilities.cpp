@@ -296,7 +296,7 @@ bool uptime_comparison(const ProcessInfo& process1, const ProcessInfo& process2)
 }
 
 bool IO_comparison(const ProcessInfo& process1, const ProcessInfo& process2){
-    if(process1.in_bytes+process1.out_bytes > process2.in_bytes+process2.out_bytes)
+    if(process1.in_bytes + process1.out_bytes > process2.in_bytes + process2.out_bytes)
         return true;
     else
         return false;
