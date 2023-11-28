@@ -475,21 +475,23 @@ IOStat getIOTraffic(int pid, Arguments& args){
 
     std::string linea;
     while (std::getline(archivo, linea)) {
-        // Buscar la línea que contiene "read_bytes" y "write_bytes"
+        //Get "read_bytes" key
         if (linea.find("read_bytes") != std::string::npos) {
             std::istringstream iss(linea);
             std::string key;
             long long value;
 
-            // Extraer el valor de "read_bytes"
+            //Extract the value
             iss >> key >> value;
             stats.in = value;
+
+        //Get "write_bytes" key
         } else if (linea.find("write_bytes") != std::string::npos) {
             std::istringstream iss(linea);
             std::string key;
             long long value;
 
-            // Extraer el valor de "write_bytes"
+            //Extract the value
             iss >> key >> value;
             stats.out = value;
         }
