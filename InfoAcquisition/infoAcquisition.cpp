@@ -509,10 +509,10 @@ IOStat getIOTraffic(int pid, Arguments& args){
         stats.out = stats.out >> 10;
     }
 
-    if(stats.in == 0)
+    /*if(stats.in == 0)
         stats.in = 1;
     if(stats.out == 0)
-        stats.out = 1;
+        stats.out = 1;*/
 
     return stats;
 }
