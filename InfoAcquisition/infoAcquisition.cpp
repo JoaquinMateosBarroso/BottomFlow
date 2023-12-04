@@ -240,6 +240,9 @@ struct NetTraffic GetSystemNetUsage(Arguments& args){
 
     }
 
+    net_traffic.in = net_traffic.in >> 10;
+    net_traffic.out = net_traffic.out >> 10;
+
     if(args.g_display){
         net_traffic.in = net_traffic.in >> 20;
         net_traffic.out = net_traffic.out >> 20;

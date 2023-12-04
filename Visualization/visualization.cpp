@@ -306,7 +306,7 @@ void showPreHeader(const vector<ProcessInfo>& processes, Arguments& args)
     else if(args.m_display)
         unit = "(MB)";
     else
-        unit = "(B)";
+        unit = "(KB)";
     
     cout << BLUE;
     cout << "[NET]: Received" << unit <<": " << net_traffic.in <<
