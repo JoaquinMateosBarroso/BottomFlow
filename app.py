@@ -52,7 +52,7 @@ class CSVPlotterApp:
     def createLegend(self):
         PIDs = self.df["PID"].unique()
         if "Name" in self.df.columns:
-            return [str(pid) + " " + self.df[self.df["PID"]==pid]["Name"].unique()[0] for pid in PIDs]
+            return [str(pid) + " " + str(self.df[self.df["PID"]==pid]["Name"].unique()[0]) for pid in PIDs]
         else:
             return [str(pid) for pid in PIDs]
 
@@ -101,9 +101,3 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = CSVPlotterApp(root)
     root.mainloop()
-
-
-1 (systemd) S 0 1 1 0 -1 4194560 494858 16475709 
-1940 50883 2145 2062 1282065 144545 20 0 1 0 11 172400640 
-1858 18446744073709551615 1 1 0 0 0 0 671173123 4096 1260 
-0 0 0 17 4 0 0 0 0 0 0 0 0 0 0 0 0 0
