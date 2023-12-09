@@ -51,9 +51,9 @@ int main(int argc, char* argv[]) {
                 cout << endl << "Introduce the filter: ";
                 switch (in)
                 {
-                case 'c': cin >> commandFilter; break;
-                case 'u': cin >> userFilter; break;
-                case 'g': cin >> groupFilter; break;
+                    case 'c': cin >> commandFilter; break;
+                    case 'u': cin >> userFilter; break;
+                    case 'g': cin >> groupFilter; break;
                 }
     	    in = 0;
         }
